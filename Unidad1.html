@@ -1,0 +1,782 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Unidad 1: Clusters en computación paralela/distribuida &#8212; Programación Concurrente y Distribuida 2026 - 01 Ucaldas</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Unidad1';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Repaso Python y C para programación concurrente y distribuida" href="Unidades/Unidad_1/repasoPythonC.html" />
+    <link rel="prev" title="Programación Concurrente y Distribuida" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="https://avatars.githubusercontent.com/u/142033488?s=200&v=4" class="logo__image only-light" alt="Programación Concurrente y Distribuida 2026 - 01 Ucaldas - Home"/>
+    <script>document.write(`<img src="https://avatars.githubusercontent.com/u/142033488?s=200&v=4" class="logo__image only-dark" alt="Programación Concurrente y Distribuida 2026 - 01 Ucaldas - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Búsqueda</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Programación Concurrente y Distribuida
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Unidad 1: Clusters en computación paralela/distribuida</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/repasoPythonC.html">Repaso Python y C para programación concurrente y distribuida</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%201%20-%20TiposDeDatos%20Condicionales%20Ciclos%20Colecciones%20Funciones_10_08_2023.html"><strong>Introducción</strong></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema_1_1_2_Multiples_Lenguajes_en_Colab_17_08_2023.html">Ejecución de código en multiples lenguajes de programación</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%202%20-%20Arreglos_10_08_2023.html">Matrices y vectores</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Intro_pandas.html">Introducción a Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Data_filtering_and_cleaning.html">«Data cleaning» y «Filtros»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%204%20-%20Analisis%20numerico%20y%20Calculo%20simbolico%20con%20Sympy_04_09_2024.html">Algebra computacional con <code class="docutils literal notranslate"><span class="pre">Sympy</span></code></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/VisualizacionDinamicaFoliumF.html">Visualizaciones Avanzadas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Automatizaciones.html">Automatizaciones</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Ficheros.html">Manejo de ficheros</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%206%20-%20Metodos%20Numericos_2024_01_1.html">Métodos numéricos - Cálculo de raices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%207%20-%20Metodos%20Numericos_2024_01_2.html">Método de newton-raphson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%208%20-%20Metodos%20Numericos_2024_01_3.html">Métodos Numéricos: Ecns Diferenciales Ordinarias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%209%20-%20Metodos%20Numericos_2024_01_4.html">Método de euler para ecuaciones diferenciales.</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/RepasoUnidad.html">Repaso Unidad 1</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Evaluemos_Unidad1_10_08_2023.html">Evaluemos lo aprendido!!</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/BioAITeamLearning/ProgCD_2026_01_Ucaldas" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Repositorio de origen"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/BioAITeamLearning/ProgCD_2026_01_Ucaldas/issues/new?title=Issue%20on%20page%20%2FUnidad1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Abrir un problema"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Unidad1.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Unidad 1: Clusters en computación paralela/distribuida</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contenido-de-la-unidad">Contenido de la unidad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion-al-hpc">Introducción al HPC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#donde-corre-lo-que-se-va-a-programar-en-el-curso">¿Dónde corre lo que se va a programar en el curso?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#infraestructura-cluster">Infraestructura: Cluster</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#colas-y-calendarizadores">Colas y calendarizadores</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#algunos-calendarizadores">Algunos calendarizadores</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#flujo-de-trabajo-con-calendarizadores">Flujo de trabajo con calendarizadores</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#asi-se-ve-un-job-para-calendarizador">Así se ve un job para calendarizador</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#infraestructura-cloud">Infraestructura: Cloud</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computacion-cloud">Computación cloud</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#infraestructura-tradicional-vs-cloud">Infraestructura tradicional Vs Cloud</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cpu-gpu-tpu">CPU &amp; GPU &amp; TPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cpu-gpu">CPU &amp; GPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actualidad-del-software-para-big-data">Actualidad del software para Big Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicaciones-del-hpc">Aplicaciones del HPC</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="unidad-1-clusters-en-computacion-paralela-distribuida">
+<h1>Unidad 1: Clusters en computación paralela/distribuida<a class="headerlink" href="#unidad-1-clusters-en-computacion-paralela-distribuida" title="Link to this heading">#</a></h1>
+<section id="contenido-de-la-unidad">
+<h2>Contenido de la unidad<a class="headerlink" href="#contenido-de-la-unidad" title="Link to this heading">#</a></h2>
+<img src="_static/images/contenidoU1.png"/>
+</section>
+<hr class="docutils" />
+<section id="introduccion-al-hpc">
+<h2>Introducción al HPC<a class="headerlink" href="#introduccion-al-hpc" title="Link to this heading">#</a></h2>
+<p><strong>HPC</strong>: Cualquier  técnica computacional que soluciona un problema grande de forma más rápida que usando posiblemente sistemas simples.</p>
+<p>HPC ha tenido gran impacto sobre todas las áreas de ciencias computacionales e ingeniería en la academia, gobierno e industria.</p>
+<p>Muchos problemas han sido solucionados con técnicas de <strong>HPC</strong> que eran imposibles de solucionar con estaciones de trabajo individuales o computadores personales.</p>
+<img src="_static/images/U1_1.png"/>
+<hr class="docutils" />
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Procesadores de alto rendimiento</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<img src="https://hardzone.es/app/uploads-hardzone.es/2023/02/Computacion-Alto-Rendimiento-HPC-Portada.jpg"/>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Computación paralela</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Sistemas simples con varios procesadores trabajando sobre el mismo problema</p>
+<img src="https://www.researchgate.net/publication/270881492/figure/fig1/AS:669030503428115@1536520710504/Programacion-Paralela-y-Distribuida.ppm" />
+<h4 class="rubric" id="computacion-paralela-vs-computador-paralelo">Computación paralela Vs Computador paralelo</h4>
+<ul class="simple">
+<li><p class="sd-card-text">Computación Paralela: el uso de múltiples computadores o procesadores trabajando en conjunto sobre una tarea común</p></li>
+<li><p class="sd-card-text">Computador Paralelo: un computador que contiene múltiples procesadores:</p>
+<ul>
+<li><p class="sd-card-text">Cada procesador trabaja sobre una sección del problema</p></li>
+<li><p class="sd-card-text">Los procesadores permiten intercambio de información con otros procesadores</p></li>
+</ul>
+</li>
+</ul>
+<img srcr="https://camo.githubusercontent.com/265827bf0ab59a671404f5a215363de6626c1e3284ad435fbbdf9291746d8bea/687474703a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f7468756d622f662f66312f466f726b5f6a6f696e2e7376672f3130343070782d466f726b5f6a6f696e2e7376672e706e67"/>
+<img src="_static/images/U1_14.png"/>
+<img src="_static/images/U1_15.png">
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Computación/programación Concurrente</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<img src="_static/images/U1_6.png"/>
+<p class="sd-card-text">La programación concurrente se enfoca en manejar múltiples tareas al mismo tiempo (ya sea simultáneamente o dando la ilusión de simultaneidad), la programación paralela se enfoca en la división y ejecución simultánea de tareas para resolver un problema más grande en menos tiempo.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Computación Distribuida</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Varios sistemas acoplados por un  secuenciador de trabajo sobre problemas relacionados</p>
+<img src="_static/images/U1_12.png"/>
+<h3 class="rubric" id="sistemas-distribuidos">Sistemas distribuidos</h3>
+<img src="_static/images/U1_5.png"/>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Computación grid</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<img src="_static/images/U1_3.png"/>
+<p class="sd-card-text">Varios sistemas acoplados por software y redes para trabajar en conjunto en problemas simples o en problemas relacionados.</p>
+<p class="sd-card-text">Unión de Clusters de computadores, recursos computacionales, datos, grupos de investigación, científicos, etc., distribuidos geográficamente y conectados mediante redes WAN</p>
+<h4 class="rubric" id="funcionamiento-de-la-computacion-grid">Funcionamiento de la computación grid</h4>
+<p class="sd-card-text">Middleware para comunicación transparente y explotación de recursos.</p>
+<ul class="simple">
+<li><p class="sd-card-text">El objetivo final es usar recursos remotos</p></li>
+<li><p class="sd-card-text">Se requieren conexiones de redes rápidas</p></li>
+<li><p class="sd-card-text">El grid busca el uso eficiente de los recursos</p></li>
+<li><p class="sd-card-text">Es esencial la seguridad centrada en: políticas de acceso, autenticación y autorización.</p></li>
+<li><p class="sd-card-text">Es importante estandarizar las aplicaciones grid.</p></li>
+</ul>
+<img src="_static/images/U1_13.png"/>
+<img src="_static/images/U1_16.png"/>
+<h4 class="rubric" id="arquitectura-grid">Arquitectura Grid</h4>
+<ul class="simple">
+<li><p class="sd-card-text">Capa de aplicación</p></li>
+<li><p class="sd-card-text">Capa de middleware</p></li>
+<li><p class="sd-card-text">Capa de recursos</p></li>
+<li><p class="sd-card-text">Capa de red</p></li>
+</ul>
+<h5 class="rubric" id="middleware">Middleware</h5>
+<p class="sd-card-text">El auténtico cerebro del grid, se encarga de las siguientes funciones:</p>
+<ul class="simple">
+<li><p class="sd-card-text">Encontrar lugar conveniente para ejecutar la tarea solicitada por el usuario.</p></li>
+<li><p class="sd-card-text">Optimizar el uso de recursos que se encuentren dispersos.</p></li>
+<li><p class="sd-card-text">Organizar el acceso eficiente a los datos.</p></li>
+<li><p class="sd-card-text">Autenticar los diferentes elementos.</p></li>
+<li><p class="sd-card-text">Ejecutar tareas.</p></li>
+<li><p class="sd-card-text">Monitorizar el progreso de los trabajos en ejecución.</p></li>
+<li><p class="sd-card-text">Gestionar automáticamente la recuperación frente a fallos.</p></li>
+<li><p class="sd-card-text">Notificar el fallo, culminación de la ejecución de una tarea y sus resultados.</p></li>
+</ul>
+<img src="_static/images/U1_17.png"/>
+</div>
+</details></section>
+<hr class="docutils" />
+<section id="donde-corre-lo-que-se-va-a-programar-en-el-curso">
+<h2>¿Dónde corre lo que se va a programar en el curso?<a class="headerlink" href="#donde-corre-lo-que-se-va-a-programar-en-el-curso" title="Link to this heading">#</a></h2>
+<section id="infraestructura-cluster">
+<h3>Infraestructura: Cluster<a class="headerlink" href="#infraestructura-cluster" title="Link to this heading">#</a></h3>
+<img src="_static/images/U1_2.png"/>
+</section>
+<section id="colas-y-calendarizadores">
+<h3>Colas y calendarizadores<a class="headerlink" href="#colas-y-calendarizadores" title="Link to this heading">#</a></h3>
+<img src="_static/images/U1_20.png"/>
+<ul class="simple">
+<li><p>Administrar recursos del Clúster</p></li>
+<li><p>Priorizar trabajos</p></li>
+<li><p>Limitar capacidad de cómputo</p></li>
+<li><p>Administrar usuarios</p></li>
+</ul>
+<hr class="docutils" />
+<img src="_static/images/U1_21.png"/>
+<img src="_static/images/U1_22.png"/>
+<section id="algunos-calendarizadores">
+<h4>Algunos calendarizadores<a class="headerlink" href="#algunos-calendarizadores" title="Link to this heading">#</a></h4>
+<img src="_static/images/U1_23.png"/>
+</section>
+<hr class="docutils" />
+<section id="flujo-de-trabajo-con-calendarizadores">
+<h4>Flujo de trabajo con calendarizadores<a class="headerlink" href="#flujo-de-trabajo-con-calendarizadores" title="Link to this heading">#</a></h4>
+<img src="_static/images/U1_24.png"/>
+</section>
+<hr class="docutils" />
+<section id="asi-se-ve-un-job-para-calendarizador">
+<h4>Así se ve un job para calendarizador<a class="headerlink" href="#asi-se-ve-un-job-para-calendarizador" title="Link to this heading">#</a></h4>
+<img src="_static/images/U1_25.png"/>
+</section>
+</section>
+<section id="infraestructura-cloud">
+<h3>Infraestructura: Cloud<a class="headerlink" href="#infraestructura-cloud" title="Link to this heading">#</a></h3>
+<img src="_static/images/U1_4.png"/>
+<ul class="simple">
+<li><p>Externalizar TI a proveedores de servicio</p></li>
+<li><p>Presentar transparencia al usuario final</p></li>
+<li><p>Asignación dinámica de recursos bajo demanda (Sin compartir) – Pago asociado</p></li>
+<li><p>Virtualización</p></li>
+</ul>
+</section>
+<section id="computacion-cloud">
+<h3>Computación cloud<a class="headerlink" href="#computacion-cloud" title="Link to this heading">#</a></h3>
+<img src="_static/images/U1_18.png"/>
+</section>
+<section id="infraestructura-tradicional-vs-cloud">
+<h3>Infraestructura tradicional Vs Cloud<a class="headerlink" href="#infraestructura-tradicional-vs-cloud" title="Link to this heading">#</a></h3>
+<img src="_static/images/U1_19.png"/>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cpu-gpu-tpu">
+<h2>CPU &amp; GPU &amp; TPU<a class="headerlink" href="#cpu-gpu-tpu" title="Link to this heading">#</a></h2>
+<img src="_static/images/U1_7.png"/>
+<img src="_static/images/U1_9.png">
+</section>
+<hr class="docutils" />
+<section id="cpu-gpu">
+<h2>CPU &amp; GPU<a class="headerlink" href="#cpu-gpu" title="Link to this heading">#</a></h2>
+<img src="_static/images/U1_8.png"/>
+</section>
+<hr class="docutils" />
+<section id="actualidad-del-software-para-big-data">
+<h2>Actualidad del software para Big Data<a class="headerlink" href="#actualidad-del-software-para-big-data" title="Link to this heading">#</a></h2>
+<img src="_static/images/U1_10.png">
+</section>
+<hr class="docutils" />
+<section id="aplicaciones-del-hpc">
+<h2>Aplicaciones del HPC<a class="headerlink" href="#aplicaciones-del-hpc" title="Link to this heading">#</a></h2>
+<img src="_static/images/U1_11.png"/></section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="página anterior">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">anterior</p>
+        <p class="prev-next-title">Programación Concurrente y Distribuida</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Unidades/Unidad_1/repasoPythonC.html"
+       title="siguiente página">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">siguiente</p>
+        <p class="prev-next-title">Repaso Python y C para programación concurrente y distribuida</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contenido-de-la-unidad">Contenido de la unidad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion-al-hpc">Introducción al HPC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#donde-corre-lo-que-se-va-a-programar-en-el-curso">¿Dónde corre lo que se va a programar en el curso?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#infraestructura-cluster">Infraestructura: Cluster</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#colas-y-calendarizadores">Colas y calendarizadores</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#algunos-calendarizadores">Algunos calendarizadores</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#flujo-de-trabajo-con-calendarizadores">Flujo de trabajo con calendarizadores</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#asi-se-ve-un-job-para-calendarizador">Así se ve un job para calendarizador</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#infraestructura-cloud">Infraestructura: Cloud</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computacion-cloud">Computación cloud</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#infraestructura-tradicional-vs-cloud">Infraestructura tradicional Vs Cloud</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cpu-gpu-tpu">CPU &amp; GPU &amp; TPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cpu-gpu">CPU &amp; GPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actualidad-del-software-para-big-data">Actualidad del software para Big Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicaciones-del-hpc">Aplicaciones del HPC</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Reinel Tabares, Johan Piña, Brayan Arteaga, Sergio Alejandro Holguin García
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

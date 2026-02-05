@@ -1,0 +1,1435 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>MapReduce &#8212; Programación Concurrente y Distribuida 2026 - 01 Ucaldas</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Unidades/UnidadBigData/intro_to_mapreduce';</script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="https://avatars.githubusercontent.com/u/142033488?s=200&v=4" class="logo__image only-light" alt="Programación Concurrente y Distribuida 2026 - 01 Ucaldas - Home"/>
+    <script>document.write(`<img src="https://avatars.githubusercontent.com/u/142033488?s=200&v=4" class="logo__image only-dark" alt="Programación Concurrente y Distribuida 2026 - 01 Ucaldas - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Búsqueda</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Programación Concurrente y Distribuida
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Unidad1.html">Unidad 1: Clusters en computación paralela/distribuida</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/repasoPythonC.html">Repaso Python y C para programación concurrente y distribuida</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%201%20-%20TiposDeDatos%20Condicionales%20Ciclos%20Colecciones%20Funciones_10_08_2023.html"><strong>Introducción</strong></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema_1_1_2_Multiples_Lenguajes_en_Colab_17_08_2023.html">Ejecución de código en multiples lenguajes de programación</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%202%20-%20Arreglos_10_08_2023.html">Matrices y vectores</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Intro_pandas.html">Introducción a Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Data_filtering_and_cleaning.html">«Data cleaning» y «Filtros»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%204%20-%20Analisis%20numerico%20y%20Calculo%20simbolico%20con%20Sympy_04_09_2024.html">Algebra computacional con <code class="docutils literal notranslate"><span class="pre">Sympy</span></code></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/VisualizacionDinamicaFoliumF.html">Visualizaciones Avanzadas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Automatizaciones.html">Automatizaciones</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Ficheros.html">Manejo de ficheros</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%206%20-%20Metodos%20Numericos_2024_01_1.html">Métodos numéricos - Cálculo de raices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%207%20-%20Metodos%20Numericos_2024_01_2.html">Método de newton-raphson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%208%20-%20Metodos%20Numericos_2024_01_3.html">Métodos Numéricos: Ecns Diferenciales Ordinarias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%209%20-%20Metodos%20Numericos_2024_01_4.html">Método de euler para ecuaciones diferenciales.</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/RepasoUnidad.html">Repaso Unidad 1</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Evaluemos_Unidad1_10_08_2023.html">Evaluemos lo aprendido!!</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/BioAITeamLearning/ProgCD_2026_01_Ucaldas/blob/main/Unidades/UnidadBigData/intro_to_mapreduce.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/BioAITeamLearning/ProgCD_2026_01_Ucaldas" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Repositorio de origen"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/BioAITeamLearning/ProgCD_2026_01_Ucaldas/issues/new?title=Issue%20on%20page%20%2FUnidades/UnidadBigData/intro_to_mapreduce.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Abrir un problema"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Unidades/UnidadBigData/intro_to_mapreduce.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>MapReduce</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesamiento-de-informacion-con-map-reduce">Procesamiento de información con MAP-REDUCE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-ejemplo">Un ejemplo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tres-fases">Tres fases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mr-job">mr-job</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#otro-ejemplo">Otro ejemplo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instrumentacion-y-runners">Instrumentación y runners</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-runner">Local runner</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controlando-el-numero-de-mappers-y-reducers">Controlando el número de mappers y reducers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combiners">Combiners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplo-wordcount">Ejemplo WordCount</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mapreduce">
+<h1>MapReduce<a class="headerlink" href="#mapreduce" title="Link to this heading">#</a></h1>
+<p>Tomado y adaptado del curso de Big Data por Raúl Ramos Pollán <a class="reference external" href="https://github.com/rramosp/20172.bigdata">GitHub</a>.</p>
+<section id="procesamiento-de-informacion-con-map-reduce">
+<h2>Procesamiento de información con MAP-REDUCE<a class="headerlink" href="#procesamiento-de-informacion-con-map-reduce" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">mrjob</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting mrjob
+  Downloading mrjob-0.7.4-py2.py3-none-any.whl.metadata (7.3 kB)
+Requirement already satisfied: PyYAML&gt;=3.10 in /usr/local/lib/python3.12/dist-packages (from mrjob) (6.0.2)
+Downloading mrjob-0.7.4-py2.py3-none-any.whl (439 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">439.6/439.6 kB</span> <span class=" -Color -Color-Red">6.5 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: mrjob
+Successfully installed mrjob-0.7.4
+</pre></div>
+</div>
+</div>
+</div>
+<section id="un-ejemplo">
+<h3>Un ejemplo<a class="headerlink" href="#un-ejemplo" title="Link to this heading">#</a></h3>
+<p>Tenemos un log de la siguiente manera</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>2012-01-01 09:08 BOG Libros 88.56 Discover
+2012-01-01 09:52 BGA Libros 62.41 Discover
+2012-01-01 10:08 MED Musica 93.37 Visa
+2012-01-01 10:58 MED Musica 395.93 Discover
+2012-01-01 14:38 BOG Musica 113.24 MasterCard
+2012-01-01 14:44 BGA Libros 290.5 Visa
+2012-01-01 16:26 MED Musica 246.12 Efectivo
+</pre></div>
+</div>
+<p>Con el <code class="docutils literal notranslate"><span class="pre">dia</span></code>, <code class="docutils literal notranslate"><span class="pre">hora</span></code>, <code class="docutils literal notranslate"><span class="pre">ciudad</span></code>, <code class="docutils literal notranslate"><span class="pre">producto</span></code>, <code class="docutils literal notranslate"><span class="pre">importe</span></code> y <code class="docutils literal notranslate"><span class="pre">medio</span> <span class="pre">de</span> <span class="pre">pago</span></code> de compras realizadas en almacenes de una cierta cadena. Queremos obtener el total del importe de compras realizadas en cada ciudad. Una forma de hacerlo es la siguiente:</p>
+<ol class="arabic">
+<li><p>procesamos cada linea y, de cada una, generamos un par <code class="docutils literal notranslate"><span class="pre">(ciudad,</span> <span class="pre">importe)</span></code>, obteniendo los siguientes pares:</p>
+<p>(BOG, 88.56)
+(BGA, 62.41)
+(MED, 93.37)
+(MED, 395.93)
+(BOG, 113.24)
+(BGA, 290.5)
+(MED, 246.12)</p>
+</li>
+<li><p>agrupamos las tuplas generadas por el valor del primer componente:</p>
+<p>(BOG, [88.56, 113.24])
+(BGA, [62.41, 290.5])
+(MED, [93.37, 395.93, 246.12])</p>
+</li>
+<li><p>sumamos los elementos de cada lista para cada ciudad:</p>
+<p>(BOG, 201.8)
+(BGA, 352.91)
+(MED, 735.42)</p>
+</li>
+</ol>
+</section>
+<section id="tres-fases">
+<h3>Tres fases<a class="headerlink" href="#tres-fases" title="Link to this heading">#</a></h3>
+<p>El primer paso en el ejemplo anterior se denomina <strong>MAP</strong> y, para cada registro de entrada, genera una tupla de formato <code class="docutils literal notranslate"><span class="pre">(clave,</span> <span class="pre">valor)</span></code>.</p>
+<p>El segundo paso se denomina <strong>SHUFFLE</strong> y lo que hace es recopilar todas las tuplas generadas en el MAP anterior de cada <code class="docutils literal notranslate"><span class="pre">clave</span></code> y construir una lista con todos los valores generados. Es decir, una tupla de formato <code class="docutils literal notranslate"><span class="pre">(clave,</span> <span class="pre">lista_de_valores)</span></code> para cada clave.</p>
+<p>El tercer paso se denomina <strong>REDUCE</strong> y, para cada clave, agrega los resultados de la lista generada en el SHUFFLE anterior.</p>
+<p>Esta forma de procesar los datos constituye un <strong>modelo de programación</strong> llamado <em>MAP-REDUCE</em> y que está implementado por varios frameworks de programación y en varios lenguajes, de forma que el programador <strong>solo implementa las funciones MAP y REDUCE</strong> y el framework se encarga del shuffle.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokens</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2012-01-01&quot;</span><span class="p">,</span><span class="s2">&quot;09:08&quot;</span><span class="p">,</span><span class="s2">&quot;BOG&quot;</span><span class="p">,</span><span class="s2">&quot;Libros&quot;</span><span class="p">,</span><span class="s2">&quot;88.56&quot;</span><span class="p">,</span><span class="s2">&quot;Discover&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mr-job">
+<h3>mr-job<a class="headerlink" href="#mr-job" title="Link to this heading">#</a></h3>
+<p>Usaremos el framework <a class="reference external" href="https://pythonhosted.org/mrjob">mr-job</a> para hacer nuestros programas map-reduce. El siguiente código implementa el proceso que acabamos de describir. Fíjate cómo sólo programamos las funciones <code class="docutils literal notranslate"><span class="pre">mapper</span></code> y <code class="docutils literal notranslate"><span class="pre">reducer</span></code>.</p>
+<p>Si están trabajando en Google Colab pueden usar <code class="docutils literal notranslate"><span class="pre">!pip</span> <span class="pre">install</span> <span class="pre">mrjob</span></code> para instalar la librería.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/mr-basico.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Compras</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">yield</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Compras</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/mr-basico.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/mr-basico.py -r inline --quiet
+2012-01-01 09:08 BOG Libros 88.56 Discover
+2012-01-01 09:52 BGA Libros 62.41 Discover
+2012-01-01 10:08 MED Musica 93.37 Visa
+2012-01-01 10:58 MED Musica 395.93 Discover
+2012-01-01 14:38 BOG Musica 113.24 MasterCard
+2012-01-01 14:44 BGA Libros 290.5 Visa
+2012-01-01 16:26 MED Musica 246.12 Efectivo
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;BOG&quot;	201.8
+&quot;MED&quot;	735.4200000000001
+&quot;BGA&quot;	352.90999999999997
+</pre></div>
+</div>
+</div>
+</div>
+<p>Prueba a eliminar el término <code class="docutils literal notranslate"><span class="pre">--quiet</span></code> de la celda anterior y así verás los mensajes que emite <strong>mr-job</strong> durante la ejecución del programa. Útil para diagnosticar errores en la ejecución del código.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/mr-basico.py -r inline
+2012-01-01 09:08 BOG Libros 88.56 Discover
+2012-01-01 09:52 BGA Libros 62.41 Discover
+2012-01-01 10:08 MED Musica 93.37 Visa
+2012-01-01 10:58 MED Musica 395.93 Discover
+2012-01-01 14:38 BOG Musica 113.24 MasterCard
+2012-01-01 14:44 BGA Libros 290.5 Visa
+2012-01-01 16:26 MED Musica 246.12 Efectivo
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;BOG&quot;	201.8
+&quot;MED&quot;	735.4200000000001
+&quot;BGA&quot;	352.90999999999997
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No configs found; falling back on auto-configuration
+No configs specified for inline runner
+Creating temp directory /tmp/mr-basico.root.20250913.011812.021996
+Running step 1 of 1...
+reading from STDIN
+job output is in /tmp/mr-basico.root.20250913.011812.021996/output
+Streaming final output from /tmp/mr-basico.root.20250913.011812.021996/output...
+Removing temp directory /tmp/mr-basico.root.20250913.011812.021996...
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="otro-ejemplo">
+<h3>Otro ejemplo<a class="headerlink" href="#otro-ejemplo" title="Link to this heading">#</a></h3>
+<p>En este ejemplo partimos de una tuplas (personaA, personaB) que representa que la personaA considera a la personaB como amiga. La relación no es simétrica. El siguiente programa cuenta cuantas amigos considera cada persona que tiene.</p>
+<p>Fíjate que la entrada es en formato JSON y cómo usamos la librería <code class="docutils literal notranslate"><span class="pre">json</span></code> de Python para convertir la entrada JSON en una lista de valores.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s2">&quot;juan&quot;</span><span class="p">,</span> <span class="s2">&quot;pepe&quot;</span><span class="p">]</span>
+<span class="p">[</span><span class="s2">&quot;juan&quot;</span><span class="p">,</span> <span class="s2">&quot;sebastian&quot;</span><span class="p">]</span>
+<span class="p">[</span><span class="s2">&quot;raul&quot;</span><span class="p">,</span> <span class="s2">&quot;pepe&quot;</span><span class="p">]</span>
+<span class="p">[</span><span class="s2">&quot;ana&quot;</span><span class="p">,</span> <span class="s2">&quot;pepe&quot;</span><span class="p">]</span>
+<span class="p">[</span><span class="s2">&quot;juan&quot;</span><span class="p">,</span> <span class="s2">&quot;ana&quot;</span><span class="p">]</span>
+<span class="p">[</span><span class="s2">&quot;ana&quot;</span><span class="p">,</span> <span class="s2">&quot;pedro&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p>procesamos cada linea y, de cada una, generamos un par <code class="docutils literal notranslate"><span class="pre">(ciudad,</span> <span class="pre">importe)</span></code>, obteniendo los siguientes pares:</p>
+<p>(juan, 1)
+(juan, 1)
+(raul, 1)
+(ana, 1)
+(juan, 1)
+(ana, 1)</p>
+</li>
+<li><p>agrupamos las tuplas generadas por el valor del primer componente:</p>
+<p>(juan, [1, 1, 1])
+(raul, [1])
+(ana, [1, 1])</p>
+</li>
+<li><p>sumamos los elementos de cada lista para cada ciudad:</p>
+<p>(juan, 3)
+(raul, 1)
+(ana, 2)</p>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/mr-amigos.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Amigos</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">record</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Amigos</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/mr-amigos.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/mr-amigos.py -r inline --quiet
+[&quot;juan&quot;, &quot;pepe&quot;]
+[&quot;juan&quot;, &quot;sebastian&quot;]
+[&quot;raul&quot;, &quot;pepe&quot;]
+[&quot;ana&quot;, &quot;pepe&quot;]
+[&quot;juan&quot;, &quot;ana&quot;]
+[&quot;ana&quot;, &quot;pedro&quot;]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;juan&quot;	3
+&quot;raul&quot;	1
+&quot;ana&quot;	2
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="instrumentacion-y-runners">
+<h2>Instrumentación y runners<a class="headerlink" href="#instrumentacion-y-runners" title="Link to this heading">#</a></h2>
+<p>Usamos la instrumentación para encontrar errores, entender nuestro código, etc. Por ahora usamos <code class="docutils literal notranslate"><span class="pre">stderr.write</span></code> para saber cuantas veces se llama a cada función. Fíjate como el <code class="docutils literal notranslate"><span class="pre">reducer</span></code> se llama una vez por cada clave distinta que generamos en el <code class="docutils literal notranslate"><span class="pre">mapper</span></code>. Cuando usemos varios procesos o máquinas tendremos que recurrir a otros tipos de instrumentación.</p>
+<p>Fíjate también que <code class="docutils literal notranslate"><span class="pre">values</span></code> en la función <code class="docutils literal notranslate"><span class="pre">reducer</span></code> es un <strong>generador</strong> [<a class="reference external" href="http://www.jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/">ref</a>], es decir, no contiene en sí una lista de valores, sino que cada vez que va devolviendo valores uno a uno hasta que se acaban. Típicamente esto sucede porque va obteniendo los valores que devuelve de un <em>stream</em> de entrada como un fichero, o una conexión remota. Por esto sólo podemos iterar sobre todos los valores <strong>una única vez</strong>.</p>
+<p>Como ahora en el <code class="docutils literal notranslate"><span class="pre">reducer</span></code> queremos obtenter ambos el número de valores que tenemos y la suma de los mismos, tenemos que modificar nuestro código.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/py-files/mr-basico-instrumentado.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w"> </span><span class="kn">import</span> <span class="n">stdin</span><span class="p">,</span> <span class="n">stderr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Compras</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;MAPPER &gt;&gt; </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+        <span class="c1">#print(&quot;mapper &gt;&gt;&quot;, line)</span>
+        <span class="k">yield</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">n_values</span><span class="p">,</span> <span class="n">sum_values</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="n">n_values</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">sum_values</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;REDUCER &gt;&gt; </span><span class="si">{0}</span><span class="s2">, number of values </span><span class="si">{1}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">n_values</span><span class="p">))</span>
+        <span class="c1">#print(&quot;reducer &gt;&gt;&quot;, key, &quot;number of values&quot;, n_values)</span>
+        <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="n">sum_values</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Compras</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/py-files/mr-basico-instrumentado.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/py-files/mr-basico-instrumentado.py --quiet
+2012-01-01 09:08 BOG Libros 88.56 Discover
+2012-01-01 09:52 BGA Libros 62.41 Discover
+2012-01-01 10:08 MED Musica 93.37 Visa
+2012-01-01 10:58 MED Musica 395.93 Discover
+2012-01-01 14:38 BOG Musica 113.24 MasterCard
+2012-01-01 14:44 BGA Libros 290.5 Visa
+2012-01-01 16:26 MED Musica 246.12 Efectivo
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;MED&quot;	735.4200000000001
+&quot;BOG&quot;	201.8
+&quot;BGA&quot;	352.90999999999997
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MAPPER &gt;&gt; 2012-01-01 09:08 BOG Libros 88.56 Discover
+MAPPER &gt;&gt; 2012-01-01 09:52 BGA Libros 62.41 Discover
+MAPPER &gt;&gt; 2012-01-01 10:08 MED Musica 93.37 Visa
+MAPPER &gt;&gt; 2012-01-01 10:58 MED Musica 395.93 Discover
+MAPPER &gt;&gt; 2012-01-01 14:38 BOG Musica 113.24 MasterCard
+MAPPER &gt;&gt; 2012-01-01 14:44 BGA Libros 290.5 Visa
+MAPPER &gt;&gt; 2012-01-01 16:26 MED Musica 246.12 Efectivo
+REDUCER &gt;&gt; BGA, number of values 2
+REDUCER &gt;&gt; BOG, number of values 2
+REDUCER &gt;&gt; MED, number of values 3
+</pre></div>
+</div>
+</div>
+</div>
+<section id="local-runner">
+<h3>Local runner<a class="headerlink" href="#local-runner" title="Link to this heading">#</a></h3>
+<p>Los programas en <strong>mr-job</strong> pueden ejecutarse en distintos <strong>runners</strong>. Fíjate en la opción <code class="docutils literal notranslate"><span class="pre">-r</span></code> cuando ejecutamos nuestro código. Los runners posibles son los siguientes:</p>
+<ul class="simple">
+<li><p><strong>inline</strong>: todos los <code class="docutils literal notranslate"><span class="pre">mapper</span></code> y <code class="docutils literal notranslate"><span class="pre">reducer</span></code> corren en el mismo proceso. Esta opción es útil para empezar a desarrollar un código y verificarlo funcionalmente.</p></li>
+<li><p><strong>local</strong>: cada <code class="docutils literal notranslate"><span class="pre">mapper</span></code> y <code class="docutils literal notranslate"><span class="pre">reducer</span></code> corren en distintos procesos independientes en la misma máquina. Con esta opción podemos hacer una primera simulación de nuetro código en un entorno distribuido.</p></li>
+<li><p><strong>hadoop</strong>: nuestro código se ejecuta en un cluster Hadoop</p></li>
+</ul>
+<p>Instrumentar código con un local runner o en Hadoop ya no es tan fácil porque cada ejecución de las funciones <code class="docutils literal notranslate"><span class="pre">mapper</span></code> y <code class="docutils literal notranslate"><span class="pre">reducer</span></code> se hace en procesos o en máquinas distintas. Si no tenemos un mecanismo para recoger y coordinar la instrumentación generada en los distintos procesos o máquinas perderemos al menos parte de ella.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/py-files/mr-basico-instrumentado.py -r local --quiet
+2012-01-01 09:08 BOG Libros 88.56 Discover
+2012-01-01 09:52 BGA Libros 62.41 Discover
+2012-01-01 10:08 MED Musica 93.37 Visa
+2012-01-01 10:58 MED Musica 395.93 Discover
+2012-01-01 14:38 BOG Musica 113.24 MasterCard
+2012-01-01 14:44 BGA Libros 290.5 Visa
+2012-01-01 16:26 MED Musica 246.12 Efectivo
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;MED&quot;	735.4200000000001
+&quot;BOG&quot;	201.8
+&quot;BGA&quot;	352.90999999999997
+</pre></div>
+</div>
+</div>
+</div>
+<p>Distintos frameworks usan distintos mecanismos para instrumentar el código distribuido. En este caso (mrjob/Hadoop) usamos los <code class="docutils literal notranslate"><span class="pre">counters</span></code>, y el framework asegura un estado global de los mismos de manera consistente. Ahora necesitamos mostrar los mensajes de salida del framework para ver el valor final de los contadores.</p>
+<p>Usamos a partir de ahora el fichero <code class="docutils literal notranslate"><span class="pre">Data/compras.txt</span></code> que tiene 30 registros con el mismo formato que el usado hasta ahora.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cat<span class="w"> </span>compras.txt
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2012-01-01 09:08 BOG Libros 88.56 Discover
+2012-01-01 09:09 BGA Libros 337.71 Efectivo
+2012-01-01 09:52 BGA Libros 450.33 MasterCard
+2012-01-01 09:52 BGA Libros 62.41 Discover
+2012-01-01 10:08 MED Musica 93.37 Visa
+2012-01-01 10:22 BGA Musica 369.94 MasterCard
+2012-01-01 10:58 MED Musica 119.12 Efectivo
+2012-01-01 10:58 MED Musica 395.93 Discover
+2012-01-01 11:01 MED Musica 476.82 Efectivo
+2012-01-01 11:15 MED Musica 22.34 Visa
+2012-01-01 11:31 BGA Musica 114.03 Efectivo
+2012-01-01 11:36 BOG Musica 296.76 Discover
+2012-01-01 11:52 BGA Musica 347.24 Visa
+2012-01-01 12:01 MED Libros 154.86 Discover
+2012-01-01 12:08 MED Libros 391.65 Visa
+2012-01-01 12:19 BOG Libros 165.05 Efectivo
+2012-01-01 12:19 BOG Libros 293.76 Discover
+2012-01-01 12:48 MED Libros 212.47 MasterCard
+2012-01-01 12:55 BOG Libros 352.38 Discover
+2012-01-01 13:04 BOG Musica 303.96 MasterCard
+2012-01-01 13:12 MED Musica 429.44 Efectivo
+2012-01-01 13:44 BOG Libros 249.6 MasterCard
+2012-01-01 14:20 BOG Libros 71.13 MasterCard
+2012-01-01 14:34 BGA Libros 72.04 Visa
+2012-01-01 14:38 BOG Musica 113.24 MasterCard
+2012-01-01 14:44 BGA Libros 290.5 Visa
+2012-01-01 15:22 BGA Libros 0.79 MasterCard
+2012-01-01 15:51 BOG Libros 74.13 Efectivo
+2012-01-01 16:01 MED Libros 92.19 MasterCard
+2012-01-01 16:26 MED Musica 2246.12 Efectivo
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/py-files/mr-basico-instrumentado-counters.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w"> </span><span class="kn">import</span> <span class="n">stdin</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Compras</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">increment_counter</span><span class="p">(</span><span class="s2">&quot;llamadas al map&quot;</span><span class="p">,</span> <span class="s2">&quot;numero&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">n_values</span><span class="p">,</span> <span class="n">sum_values</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="n">n_values</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">sum_values</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">increment_counter</span><span class="p">(</span><span class="s2">&quot;longitud valores reduce&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">n_values</span> <span class="p">)</span>
+        <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="n">sum_values</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Compras</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/py-files/mr-basico-instrumentado-counters.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/py-files/mr-basico-instrumentado-counters.py -r local compras.txt
+--
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;MED&quot;	4634.3099999999995
+&quot;BOG&quot;	2008.5699999999997
+&quot;BGA&quot;	2044.9899999999998
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No configs found; falling back on auto-configuration
+No configs specified for local runner
+Creating temp directory /tmp/mr-basico-instrumentado-counters.root.20230822.165351.715020
+Running step 1 of 1...
+
+Counters: 4
+	llamadas al map
+		numero=30
+	longitud valores reduce
+		BGA=9
+		BOG=10
+		MED=11
+
+job output is in /tmp/mr-basico-instrumentado-counters.root.20230822.165351.715020/output
+Streaming final output from /tmp/mr-basico-instrumentado-counters.root.20230822.165351.715020/output...
+Removing temp directory /tmp/mr-basico-instrumentado-counters.root.20230822.165351.715020...
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="controlando-el-numero-de-mappers-y-reducers">
+<h3>Controlando el número de mappers y reducers<a class="headerlink" href="#controlando-el-numero-de-mappers-y-reducers" title="Link to this heading">#</a></h3>
+<p>Ahora cambiamos la instrumentación para que cuente el número de llamadas de cada función por cada proceso. Puedes controlar el número de mappers y reducers al ejecutar tu programa como se indica abajo. Prueba a ejecutar el código con distintos números de mappers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/py-files/mr-basico-instrumentado-counters-tasks.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w"> </span><span class="kn">import</span> <span class="n">stdin</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Compras</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">increment_counter</span><span class="p">(</span><span class="s2">&quot;map: proceso &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()),</span> <span class="s2">&quot;numero&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">n_values</span><span class="p">,</span> <span class="n">sum_values</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="n">n_values</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">sum_values</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">increment_counter</span><span class="p">(</span><span class="s2">&quot;longitud valores reduce: proceso &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()),</span> <span class="n">key</span><span class="p">,</span> <span class="n">n_values</span> <span class="p">)</span>
+        <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="n">sum_values</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Compras</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/py-files/mr-basico-instrumentado-counters-tasks.py
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>la linea entera que se ejecuta a continuación es la siguiente</em></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python files/mr-basico-instrumentado-counters-tasks.py
+       -r local
+       --jobconf mapred.map.tasks=5
+       --jobconf mapred.reduce.tasks=1
+       ../Data/compras.txt
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/py-files/mr-basico-instrumentado-counters-tasks.py -r local --jobconf mapred.map.tasks=5 --jobconf mapred.reduce.tasks=1 compras.txt
+--
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;MED&quot;	4634.3099999999995
+&quot;BOG&quot;	2008.5699999999997
+&quot;BGA&quot;	2044.9899999999998
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No configs found; falling back on auto-configuration
+No configs specified for local runner
+Creating temp directory /tmp/mr-basico-instrumentado-counters-tasks.root.20230822.165512.835914
+Running step 1 of 1...
+
+Counters: 7
+	longitud valores reduce: proceso 3862
+		BOG=10
+	longitud valores reduce: proceso 3863
+		BGA=9
+	longitud valores reduce: proceso 3866
+		MED=11
+	map: proceso 3840
+		numero=8
+	map: proceso 3841
+		numero=8
+	map: proceso 3846
+		numero=8
+	map: proceso 3847
+		numero=6
+
+job output is in /tmp/mr-basico-instrumentado-counters-tasks.root.20230822.165512.835914/output
+Streaming final output from /tmp/mr-basico-instrumentado-counters-tasks.root.20230822.165512.835914/output...
+Removing temp directory /tmp/mr-basico-instrumentado-counters-tasks.root.20230822.165512.835914...
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="combiners">
+<h2>Combiners<a class="headerlink" href="#combiners" title="Link to this heading">#</a></h2>
+<p>los combiners permiten resumir los datos que emite cada proceso map antes de que lleguen al reduce y así reducir el tráfico de red que sale de los procesos map y que entra en los reducers. Los combiners se ejecutan en la misma máquina que el map, alimentándose directamente de la salida de éste. Típicamente un combiner tiene la misma implementación que el <code class="docutils literal notranslate"><span class="pre">reducer</span></code> si es que éste <strong>es asociativo</strong>. Si no, puede tener otra implementación particular. Fíjate en la relación entre el número de procesos map y el número de valores que le entran a cada reduce.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/py-files/mr-basico-combiners.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w"> </span><span class="kn">import</span> <span class="n">stdin</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Compras</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">increment_counter</span><span class="p">(</span><span class="s2">&quot;map: &quot;</span><span class="p">,</span> <span class="s2">&quot;numero&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">combiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">n_values</span><span class="p">,</span> <span class="n">sum_values</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="n">n_values</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">sum_values</span> <span class="o">+=</span> <span class="n">i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">increment_counter</span><span class="p">(</span><span class="s2">&quot;longitud valores reduce: &quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">n_values</span> <span class="p">)</span>
+        <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="n">sum_values</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Compras</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/py-files/mr-basico-combiners.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/py-files/mr-basico-combiners.py -r local compras.txt
+--
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;MED&quot;	4634.3099999999995
+&quot;BOG&quot;	2008.5699999999997
+&quot;BGA&quot;	2044.9899999999998
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No configs found; falling back on auto-configuration
+No configs specified for local runner
+Creating temp directory /tmp/mr-basico-combiners.root.20230822.165559.388036
+Running step 1 of 1...
+
+Counters: 4
+	longitud valores reduce: 
+		BGA=4
+		BOG=4
+		MED=4
+	map: 
+		numero=30
+
+job output is in /tmp/mr-basico-combiners.root.20230822.165559.388036/output
+Streaming final output from /tmp/mr-basico-combiners.root.20230822.165559.388036/output...
+Removing temp directory /tmp/mr-basico-combiners.root.20230822.165559.388036...
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ejemplo-wordcount">
+<h2>Ejemplo WordCount<a class="headerlink" href="#ejemplo-wordcount" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/py-files/mr-basico-wordcount.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="n">WORD_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\w&#39;]+&quot;</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MRWordFreqCount</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">WORD_RE</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">combiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">word</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">word</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">MRWordFreqCount</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/py-files/mr-basico-wordcount.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/py-files/mr-basico-wordcount.py -r inline -q
+Ancient influences have helped spawn variant interpretations
+of the nature of history which have evolved over the centuries
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;nature&quot;	1
+&quot;of&quot;	2
+&quot;over&quot;	1
+&quot;spawn&quot;	1
+&quot;the&quot;	2
+&quot;helped&quot;	1
+&quot;history&quot;	1
+&quot;influences&quot;	1
+&quot;interpretations&quot;	1
+&quot;variant&quot;	1
+&quot;which&quot;	1
+&quot;ancient&quot;	1
+&quot;centuries&quot;	1
+&quot;evolved&quot;	1
+&quot;have&quot;	2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/py-files/mr-wordcount-max.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.step</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRStep</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">WORD_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\w&#39;]+&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MRMostUsedWord</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper_get_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="c1"># yield each word in the line</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">WORD_RE</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">combiner_count_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="c1"># sum the words we&#39;ve seen so far</span>
+        <span class="k">yield</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer_count_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="c1"># send all (num_occurrences, word) pairs to the same reducer.</span>
+        <span class="c1"># num_occurrences is so we can easily use Python&#39;s max() function.</span>
+        <span class="k">yield</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">),</span> <span class="n">word</span><span class="p">)</span>
+
+    <span class="c1"># discard the key; it is just None</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer_find_max_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">word_count_pairs</span><span class="p">):</span>
+        <span class="c1"># each item of word_count_pairs is (count, word),</span>
+        <span class="c1"># so yielding one results in key=counts, value=word</span>
+        <span class="k">yield</span> <span class="nb">max</span><span class="p">(</span><span class="n">word_count_pairs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">steps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">MRStep</span><span class="p">(</span><span class="n">mapper</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper_get_words</span><span class="p">,</span>
+                   <span class="n">combiner</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">combiner_count_words</span><span class="p">,</span>
+                   <span class="n">reducer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reducer_count_words</span><span class="p">),</span>
+            <span class="n">MRStep</span><span class="p">(</span><span class="n">reducer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reducer_find_max_word</span><span class="p">)</span>
+        <span class="p">]</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">MRMostUsedWord</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/py-files/mr-wordcount-max.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/py-files/mr-wordcount-max.py -r inline -q text.txt
+--
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>239	&quot;the&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%writefile</span> /content/py-files/mr-wordcount-max-clean.py
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.job</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRJob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mrjob.step</span><span class="w"> </span><span class="kn">import</span> <span class="n">MRStep</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">WORD_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\w&#39;]+&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MRMostUsedWord</span><span class="p">(</span><span class="n">MRJob</span><span class="p">):</span>
+
+    <span class="n">stopwords</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ourselves&#39;</span><span class="p">,</span> <span class="s1">&#39;hers&#39;</span><span class="p">,</span> <span class="s1">&#39;between&#39;</span><span class="p">,</span> <span class="s1">&#39;yourself&#39;</span><span class="p">,</span> <span class="s1">&#39;but&#39;</span><span class="p">,</span> <span class="s1">&#39;again&#39;</span><span class="p">,</span> <span class="s1">&#39;there&#39;</span><span class="p">,</span> <span class="s1">&#39;about&#39;</span><span class="p">,</span> <span class="s1">&#39;once&#39;</span><span class="p">,</span> <span class="s1">&#39;during&#39;</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;very&#39;</span><span class="p">,</span> <span class="s1">&#39;having&#39;</span><span class="p">,</span> <span class="s1">&#39;with&#39;</span><span class="p">,</span> <span class="s1">&#39;they&#39;</span><span class="p">,</span> <span class="s1">&#39;own&#39;</span><span class="p">,</span> <span class="s1">&#39;an&#39;</span><span class="p">,</span> <span class="s1">&#39;be&#39;</span><span class="p">,</span> <span class="s1">&#39;some&#39;</span><span class="p">,</span> <span class="s1">&#39;for&#39;</span><span class="p">,</span> <span class="s1">&#39;do&#39;</span><span class="p">,</span> <span class="s1">&#39;its&#39;</span><span class="p">,</span> <span class="s1">&#39;yours&#39;</span><span class="p">,</span> <span class="s1">&#39;such&#39;</span><span class="p">,</span> <span class="s1">&#39;into&#39;</span><span class="p">,</span> <span class="s1">&#39;of&#39;</span><span class="p">,</span> <span class="s1">&#39;most&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;itself&#39;</span><span class="p">,</span> <span class="s1">&#39;other&#39;</span><span class="p">,</span> <span class="s1">&#39;off&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;who&#39;</span><span class="p">,</span> <span class="s1">&#39;as&#39;</span><span class="p">,</span> <span class="s1">&#39;from&#39;</span><span class="p">,</span> <span class="s1">&#39;him&#39;</span><span class="p">,</span> <span class="s1">&#39;each&#39;</span><span class="p">,</span> <span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;themselves&#39;</span><span class="p">,</span> <span class="s1">&#39;until&#39;</span><span class="p">,</span> <span class="s1">&#39;below&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;are&#39;</span><span class="p">,</span> <span class="s1">&#39;we&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span><span class="p">,</span> <span class="s1">&#39;your&#39;</span><span class="p">,</span> <span class="s1">&#39;his&#39;</span><span class="p">,</span> <span class="s1">&#39;through&#39;</span><span class="p">,</span> <span class="s1">&#39;don&#39;</span><span class="p">,</span> <span class="s1">&#39;nor&#39;</span><span class="p">,</span> <span class="s1">&#39;me&#39;</span><span class="p">,</span> <span class="s1">&#39;were&#39;</span><span class="p">,</span> <span class="s1">&#39;her&#39;</span><span class="p">,</span> <span class="s1">&#39;more&#39;</span><span class="p">,</span> <span class="s1">&#39;himself&#39;</span><span class="p">,</span> <span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="s1">&#39;should&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;our&#39;</span><span class="p">,</span> <span class="s1">&#39;their&#39;</span><span class="p">,</span> <span class="s1">&#39;while&#39;</span><span class="p">,</span> <span class="s1">&#39;above&#39;</span><span class="p">,</span> <span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="s1">&#39;ours&#39;</span><span class="p">,</span> <span class="s1">&#39;had&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span> <span class="s1">&#39;when&#39;</span><span class="p">,</span> <span class="s1">&#39;at&#39;</span><span class="p">,</span> <span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;before&#39;</span><span class="p">,</span> <span class="s1">&#39;them&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">,</span> <span class="s1">&#39;been&#39;</span><span class="p">,</span> <span class="s1">&#39;have&#39;</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="s1">&#39;will&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">,</span> <span class="s1">&#39;does&#39;</span><span class="p">,</span> <span class="s1">&#39;yourselves&#39;</span><span class="p">,</span> <span class="s1">&#39;then&#39;</span><span class="p">,</span> <span class="s1">&#39;that&#39;</span><span class="p">,</span> <span class="s1">&#39;because&#39;</span><span class="p">,</span> <span class="s1">&#39;what&#39;</span><span class="p">,</span> <span class="s1">&#39;over&#39;</span><span class="p">,</span> <span class="s1">&#39;why&#39;</span><span class="p">,</span> <span class="s1">&#39;so&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;can&#39;</span><span class="p">,</span> <span class="s1">&#39;did&#39;</span><span class="p">,</span> <span class="s1">&#39;not&#39;</span><span class="p">,</span> <span class="s1">&#39;now&#39;</span><span class="p">,</span> <span class="s1">&#39;under&#39;</span><span class="p">,</span> <span class="s1">&#39;he&#39;</span><span class="p">,</span> <span class="s1">&#39;you&#39;</span><span class="p">,</span> <span class="s1">&#39;herself&#39;</span><span class="p">,</span> <span class="s1">&#39;has&#39;</span><span class="p">,</span> <span class="s1">&#39;just&#39;</span><span class="p">,</span> <span class="s1">&#39;where&#39;</span><span class="p">,</span> <span class="s1">&#39;too&#39;</span><span class="p">,</span> <span class="s1">&#39;only&#39;</span><span class="p">,</span> <span class="s1">&#39;myself&#39;</span><span class="p">,</span> <span class="s1">&#39;which&#39;</span><span class="p">,</span> <span class="s1">&#39;those&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;after&#39;</span><span class="p">,</span> <span class="s1">&#39;few&#39;</span><span class="p">,</span> <span class="s1">&#39;whom&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;being&#39;</span><span class="p">,</span> <span class="s1">&#39;if&#39;</span><span class="p">,</span> <span class="s1">&#39;theirs&#39;</span><span class="p">,</span> <span class="s1">&#39;my&#39;</span><span class="p">,</span> <span class="s1">&#39;against&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;by&#39;</span><span class="p">,</span> <span class="s1">&#39;doing&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;how&#39;</span><span class="p">,</span> <span class="s1">&#39;further&#39;</span><span class="p">,</span> <span class="s1">&#39;was&#39;</span><span class="p">,</span> <span class="s1">&#39;here&#39;</span><span class="p">,</span> <span class="s1">&#39;than&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mapper_get_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="c1"># yield each word in the line</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">WORD_RE</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopwords</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">combiner_count_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="c1"># sum the words we&#39;ve seen so far</span>
+        <span class="k">yield</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer_count_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="c1"># send all (num_occurrences, word) pairs to the same reducer.</span>
+        <span class="c1"># num_occurrences is so we can easily use Python&#39;s max() function.</span>
+        <span class="k">yield</span> <span class="kc">None</span><span class="p">,</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">),</span> <span class="n">word</span><span class="p">)</span>
+
+    <span class="c1"># discard the key; it is just None</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reducer_find_max_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">word_count_pairs</span><span class="p">):</span>
+        <span class="c1"># each item of word_count_pairs is (count, word),</span>
+        <span class="c1"># so yielding one results in key=counts, value=word</span>
+        <span class="k">yield</span> <span class="nb">max</span><span class="p">(</span><span class="n">word_count_pairs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">steps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">MRStep</span><span class="p">(</span><span class="n">mapper</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper_get_words</span><span class="p">,</span>
+                   <span class="n">combiner</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">combiner_count_words</span><span class="p">,</span>
+                   <span class="n">reducer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reducer_count_words</span><span class="p">),</span>
+            <span class="n">MRStep</span><span class="p">(</span><span class="n">reducer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reducer_find_max_word</span><span class="p">)</span>
+        <span class="p">]</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">MRMostUsedWord</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Writing /content/py-files/mr-wordcount-max-clean.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">script</span> python /content/py-files/mr-wordcount-max-clean.py -r inline -q text.txt
+--
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>58	&quot;blind&quot;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Unidades/UnidadBigData"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#procesamiento-de-informacion-con-map-reduce">Procesamiento de información con MAP-REDUCE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-ejemplo">Un ejemplo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tres-fases">Tres fases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mr-job">mr-job</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#otro-ejemplo">Otro ejemplo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instrumentacion-y-runners">Instrumentación y runners</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-runner">Local runner</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controlando-el-numero-de-mappers-y-reducers">Controlando el número de mappers y reducers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combiners">Combiners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejemplo-wordcount">Ejemplo WordCount</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Reinel Tabares, Johan Piña, Brayan Arteaga, Sergio Alejandro Holguin García
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

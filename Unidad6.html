@@ -1,0 +1,901 @@
+
+<!DOCTYPE html>
+
+
+<html lang="es" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Unidad 6: Infraestructura de cluster &#8212; Programación Concurrente y Distribuida 2026 - 01 Ucaldas</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=78d55cf8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
+    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="_static/translations.js?v=d190bf04"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Unidad6';</script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="es"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Saltar al contenido principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Volver arriba</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Advertencia de versión"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="https://avatars.githubusercontent.com/u/142033488?s=200&v=4" class="logo__image only-light" alt="Programación Concurrente y Distribuida 2026 - 01 Ucaldas - Home"/>
+    <script>document.write(`<img src="https://avatars.githubusercontent.com/u/142033488?s=200&v=4" class="logo__image only-dark" alt="Programación Concurrente y Distribuida 2026 - 01 Ucaldas - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Búsqueda</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Programación Concurrente y Distribuida
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="Unidad1.html">Unidad 1: Clusters en computación paralela/distribuida</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/repasoPythonC.html">Repaso Python y C para programación concurrente y distribuida</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%201%20-%20TiposDeDatos%20Condicionales%20Ciclos%20Colecciones%20Funciones_10_08_2023.html"><strong>Introducción</strong></a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema_1_1_2_Multiples_Lenguajes_en_Colab_17_08_2023.html">Ejecución de código en multiples lenguajes de programación</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%202%20-%20Arreglos_10_08_2023.html">Matrices y vectores</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Intro_pandas.html">Introducción a Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Data_filtering_and_cleaning.html">«Data cleaning» y «Filtros»</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%204%20-%20Analisis%20numerico%20y%20Calculo%20simbolico%20con%20Sympy_04_09_2024.html">Algebra computacional con <code class="docutils literal notranslate"><span class="pre">Sympy</span></code></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/VisualizacionDinamicaFoliumF.html">Visualizaciones Avanzadas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Automatizaciones.html">Automatizaciones</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Ficheros.html">Manejo de ficheros</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%206%20-%20Metodos%20Numericos_2024_01_1.html">Métodos numéricos - Cálculo de raices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%207%20-%20Metodos%20Numericos_2024_01_2.html">Método de newton-raphson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%208%20-%20Metodos%20Numericos_2024_01_3.html">Métodos Numéricos: Ecns Diferenciales Ordinarias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Tema%209%20-%20Metodos%20Numericos_2024_01_4.html">Método de euler para ecuaciones diferenciales.</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/RepasoUnidad.html">Repaso Unidad 1</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Unidades/Unidad_1/Evaluemos_Unidad1_10_08_2023.html">Evaluemos lo aprendido!!</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/BioAITeamLearning/ProgCD_2026_01_Ucaldas" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Repositorio de origen"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/BioAITeamLearning/ProgCD_2026_01_Ucaldas/issues/new?title=Issue%20on%20page%20%2FUnidad6.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Abrir un problema"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Descarga esta pagina">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Unidad6.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Descargar archivo fuente"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimir en PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Modo de pantalla completa"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="claro/oscuro" aria-label="claro/oscuro" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Búsqueda" aria-label="Búsqueda" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Unidad 6: Infraestructura de cluster</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenido </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contenido-de-la-unidad">Contenido de la unidad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hpc-y-cluster">HPC y cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-general">Arquitectura general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribucion-del-espacio-fisico">Distribución del espacio físico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ups">UPS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aire-acondicionado-de-precision">Aire acondicionado de precisión</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#racks-de-servidores">Racks de servidores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#switches">Switches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conectividad-infiniband">Conectividad: infiniband</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nodos-de-computo">Nodos de computo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nodos-de-almacenamiento-nas">Nodos de almacenamiento: nas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Nodos de almacenamiento: nas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esquema-basico-disposicion-cluster">Esquema básico disposición cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esquema-basico">Esquema básico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esquema-basico-conexion-cluster">Esquema básico: Conexión cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conexion-cluster-vpn">Conexión cluster: VPN</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Esquema básico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-cluster-bios">Arquitectura cluster BIOS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Arquitectura cluster BIOS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-cluster-bios-inspur">Arquitectura cluster BIOS-INSPUR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Arquitectura cluster BIOS-INSPUR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemas-operativos">Sistemas operativos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-de-cluster">Software de cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#organizacion-de-directorios">Organización de directorios</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#librerias-y-modulos">Librerías y módulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Librerías y módulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paralelizacion-en-cluster-ley-de-amdahl">Paralelización en cluster: Ley de amdahl</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paralelizacion-en-cluster-taxonomia-flynn">Paralelización en cluster: Taxonomía Flynn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paralelizacion-en-cluster-hyper-threading">Paralelización en cluster: Hyper Threading</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-paralelizacion-multicore-openmp">Tipos de paralelización: Multicore OpenMP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-paralelizacion-multinodo-mpi">Tipos de paralelización: Multinodo MPI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-paralelizacion-mpi-openmp">Tipos de paralelización: MPI+OpenMP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-paralelizacion-gpu">Tipos de paralelización: GPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Tipos de paralelización: GPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecucion-de-procesos-de-manera-general">Ejecución de procesos de manera general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calendarizadores">Calendarizadores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flujo-de-trabajo-calendarizador">Flujo de trabajo calendarizador</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#capacidades-en-hpc">Capacidades en HPC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proyectos-ejecutados">Proyectos ejecutados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-extra">Recursos Extra</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="unidad-6-infraestructura-de-cluster">
+<h1>Unidad 6: Infraestructura de cluster<a class="headerlink" href="#unidad-6-infraestructura-de-cluster" title="Link to this heading">#</a></h1>
+<section id="contenido-de-la-unidad">
+<h2>Contenido de la unidad<a class="headerlink" href="#contenido-de-la-unidad" title="Link to this heading">#</a></h2>
+<img src="_static/images/contenidoU6.png"/>
+</section>
+<section id="hpc-y-cluster">
+<h2>HPC y cluster<a class="headerlink" href="#hpc-y-cluster" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_1.jpg"/>
+</section>
+<section id="arquitectura-general">
+<h2>Arquitectura general<a class="headerlink" href="#arquitectura-general" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_2.jpg"/>
+</section>
+<section id="distribucion-del-espacio-fisico">
+<h2>Distribución del espacio físico<a class="headerlink" href="#distribucion-del-espacio-fisico" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_3.jpg"/>
+</section>
+<section id="ups">
+<h2>UPS<a class="headerlink" href="#ups" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_4.jpg"/>
+</section>
+<section id="aire-acondicionado-de-precision">
+<h2>Aire acondicionado de precisión<a class="headerlink" href="#aire-acondicionado-de-precision" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_5.jpg"/>
+</section>
+<section id="racks-de-servidores">
+<h2>Racks de servidores<a class="headerlink" href="#racks-de-servidores" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_6.jpg"/>
+</section>
+<section id="switches">
+<h2>Switches<a class="headerlink" href="#switches" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_7.jpg"/>
+</section>
+<section id="conectividad-infiniband">
+<h2>Conectividad: infiniband<a class="headerlink" href="#conectividad-infiniband" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_8.jpg"/>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">InfiniBand</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<img src="_static/images/U6_9.jpg"/>
+</div>
+</details></section>
+<section id="nodos-de-computo">
+<h2>Nodos de computo<a class="headerlink" href="#nodos-de-computo" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_10.jpg"/>
+</section>
+<section id="nodos-de-almacenamiento-nas">
+<h2>Nodos de almacenamiento: nas<a class="headerlink" href="#nodos-de-almacenamiento-nas" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_11.jpg"/>
+</section>
+<section id="id1">
+<h2>Nodos de almacenamiento: nas<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_12.jpg"/>
+</section>
+<section id="esquema-basico-disposicion-cluster">
+<h2>Esquema básico disposición cluster<a class="headerlink" href="#esquema-basico-disposicion-cluster" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_13.jpg"/>
+</section>
+<section id="esquema-basico">
+<h2>Esquema básico<a class="headerlink" href="#esquema-basico" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_14.jpg"/>
+</section>
+<section id="esquema-basico-conexion-cluster">
+<h2>Esquema básico: Conexión cluster<a class="headerlink" href="#esquema-basico-conexion-cluster" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_15.jpg"/>
+</section>
+<section id="conexion-cluster-vpn">
+<h2>Conexión cluster: VPN<a class="headerlink" href="#conexion-cluster-vpn" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_16.jpg"/>
+</section>
+<section id="id2">
+<h2>Esquema básico<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_17.jpg"/>
+</section>
+<section id="arquitectura-cluster-bios">
+<h2>Arquitectura cluster BIOS<a class="headerlink" href="#arquitectura-cluster-bios" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_18.jpg"/>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>Análisis de los TFlops BIOS</strong></p>
+<p>Ver el Excel «Cálculo de Tflops BIOS.xlsx»</p>
+</div>
+</section>
+<section id="id3">
+<h2>Arquitectura cluster BIOS<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_19.jpg"/>
+</section>
+<section id="arquitectura-cluster-bios-inspur">
+<h2>Arquitectura cluster BIOS-INSPUR<a class="headerlink" href="#arquitectura-cluster-bios-inspur" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_20.jpg"/>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p><strong>Análisis de los TFlops BIOS-INSPUR</strong></p>
+<p>Ver el Excel «Análisis de capacidades TFlops INSPUR BIOS.xlsx»</p>
+</div>
+</section>
+<section id="id4">
+<h2>Arquitectura cluster BIOS-INSPUR<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_21.jpg"/>
+</section>
+<section id="sistemas-operativos">
+<h2>Sistemas operativos<a class="headerlink" href="#sistemas-operativos" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_22.jpg"/>
+</section>
+<section id="software-de-cluster">
+<h2>Software de cluster<a class="headerlink" href="#software-de-cluster" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Sistema Operativo:</p>
+<ul>
+<li><p>Linux Centos.</p></li>
+</ul>
+</li>
+<li><p>Administrador de colas (Job Manager):</p>
+<ul>
+<li><p>ClusterEngine HPC Professional edition.</p></li>
+</ul>
+</li>
+<li><p>Plataforma de virtualización:</p>
+<ul>
+<li><p>ClusterEngine Unified Cloud Service Platform-HPC Basic Edition.</p></li>
+</ul>
+</li>
+</ul>
+<img src="_static/images/U6_24.jpg"/>
+<ul class="simple">
+<li><p>Librerías para ejecución de entornos en paralelo:</p>
+<ul>
+<li><p>MPICH: 1Gb parallel message passing library.</p></li>
+<li><p>MVAPICH2: 10Gb/IB parallel message passing library.</p></li>
+<li><p>OpenMPI: high-performance message passing library.</p></li>
+</ul>
+</li>
+</ul>
+<img src="_static/images/U6_25.jpg"/>
+<ul class="simple">
+<li><p>Entornos de programación:</p>
+<ul>
+<li><p>Intel Math Kernel Library</p></li>
+<li><p>GCC compiler</p></li>
+<li><p>Intel compiler &amp; debugging software.</p></li>
+<li><p>Intel C++/Fortran compiler.</p></li>
+</ul>
+</li>
+</ul>
+<img src="_static/images/U6_26.jpg"/>
+<ul class="simple">
+<li><p>Software para gestión de almacenamiento y acceso a datos:</p>
+<ul>
+<li><p>Intel Enterprise Edition Lustre</p></li>
+<li><p>Hadoop</p></li>
+</ul>
+</li>
+</ul>
+<img src="_static/images/U6_27.jpg"/>
+</section>
+<section id="organizacion-de-directorios">
+<h2>Organización de directorios<a class="headerlink" href="#organizacion-de-directorios" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_28.jpg"/>
+</section>
+<section id="librerias-y-modulos">
+<h2>Librerías y módulos<a class="headerlink" href="#librerias-y-modulos" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_29.jpg"/>
+</section>
+<section id="id5">
+<h2>Librerías y módulos<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_30.jpg"/>
+<div class="admonition tip">
+<p class="admonition-title">Truco</p>
+<p><a href="https://modules.readthedocs.io/en/latest/" target="_blank">Environment Modules — Modules documentation</a>
+<img src="_static/images/U6_31.jpg"/></p>
+</div>
+</section>
+<section id="paralelizacion-en-cluster-ley-de-amdahl">
+<h2>Paralelización en cluster: Ley de amdahl<a class="headerlink" href="#paralelizacion-en-cluster-ley-de-amdahl" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_32.jpg"/>
+</section>
+<section id="paralelizacion-en-cluster-taxonomia-flynn">
+<h2>Paralelización en cluster: Taxonomía Flynn<a class="headerlink" href="#paralelizacion-en-cluster-taxonomia-flynn" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>SISD</p>
+<ul>
+<li><p>La CPU procesa únicamente una instrucción por cada ciclo de reloj.</p></li>
+<li><p>Únicamente un dato es procesado en cada ciclo de reloj.</p></li>
+<li><p>Es el modelo más antiguo de computadora y el más extendido.</p></li>
+</ul>
+</li>
+<li><p>MISD</p>
+<ul>
+<li><p>Cada unidad ejecuta una instrucción distinta.</p></li>
+<li><p>Cada unidad procesa el mismo dato.</p></li>
+<li><p>Aplicación muy limitada en la vida real.</p></li>
+</ul>
+</li>
+<li><p>SIMD</p>
+<ul>
+<li><p>Todas las unidades ejecutan la misma instrucción.</p></li>
+<li><p>Cada unidad procesa un dato distinto.</p></li>
+<li><p>Todas las unidades operan simultáneamente.</p></li>
+</ul>
+</li>
+<li><p>MIMD</p>
+<ul>
+<li><p>Cada unidad ejecuta una instrucción distinta.</p></li>
+<li><p>Cada unidad procesa un dato distinto.</p></li>
+<li><p>Todas las unidades operan simultáneamente.</p></li>
+</ul>
+</li>
+</ul>
+<img src="_static/images/U6_33.jpg"/>
+</section>
+<section id="paralelizacion-en-cluster-hyper-threading">
+<h2>Paralelización en cluster: Hyper Threading<a class="headerlink" href="#paralelizacion-en-cluster-hyper-threading" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_34.jpg"/>
+</section>
+<section id="tipos-de-paralelizacion-multicore-openmp">
+<h2>Tipos de paralelización: Multicore OpenMP<a class="headerlink" href="#tipos-de-paralelizacion-multicore-openmp" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_35.jpg"/>
+</section>
+<section id="tipos-de-paralelizacion-multinodo-mpi">
+<h2>Tipos de paralelización: Multinodo MPI<a class="headerlink" href="#tipos-de-paralelizacion-multinodo-mpi" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_36.jpg"/>
+</section>
+<section id="tipos-de-paralelizacion-mpi-openmp">
+<h2>Tipos de paralelización: MPI+OpenMP<a class="headerlink" href="#tipos-de-paralelizacion-mpi-openmp" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_37.jpg"/>
+</section>
+<section id="tipos-de-paralelizacion-gpu">
+<h2>Tipos de paralelización: GPU<a class="headerlink" href="#tipos-de-paralelizacion-gpu" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_38.jpg"/>
+</section>
+<section id="id6">
+<h2>Tipos de paralelización: GPU<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_39.jpg"/>
+</section>
+<section id="ejecucion-de-procesos-de-manera-general">
+<h2>Ejecución de procesos de manera general<a class="headerlink" href="#ejecucion-de-procesos-de-manera-general" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_40.jpg"/>
+</section>
+<section id="calendarizadores">
+<h2>Calendarizadores<a class="headerlink" href="#calendarizadores" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_41.jpg"/>
+</section>
+<section id="flujo-de-trabajo-calendarizador">
+<h2>Flujo de trabajo calendarizador<a class="headerlink" href="#flujo-de-trabajo-calendarizador" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_42.jpg"/>
+</section>
+<section id="capacidades-en-hpc">
+<h2>Capacidades en HPC<a class="headerlink" href="#capacidades-en-hpc" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_43.jpg"/>
+</section>
+<section id="proyectos-ejecutados">
+<h2>Proyectos ejecutados<a class="headerlink" href="#proyectos-ejecutados" title="Link to this heading">#</a></h2>
+<img src="_static/images/U6_44.jpg"/>
+</section>
+<section id="recursos-extra">
+<h2>Recursos Extra<a class="headerlink" href="#recursos-extra" title="Link to this heading">#</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Truco</p>
+<p><a href="https://upcommons.upc.edu/bitstream/handle/2099.1/15791/77790.pdf?sequence=1" target="_blank"> Instalación y configuración de un cluster de computación</a></p>
+<p><a href="https://es.slideshare.net/kacjoa/diseo-y-normas-para-data-centers" target="_blank">Diseño y normas para data centers</a></p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenido
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contenido-de-la-unidad">Contenido de la unidad</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hpc-y-cluster">HPC y cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-general">Arquitectura general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribucion-del-espacio-fisico">Distribución del espacio físico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ups">UPS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aire-acondicionado-de-precision">Aire acondicionado de precisión</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#racks-de-servidores">Racks de servidores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#switches">Switches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conectividad-infiniband">Conectividad: infiniband</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nodos-de-computo">Nodos de computo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nodos-de-almacenamiento-nas">Nodos de almacenamiento: nas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Nodos de almacenamiento: nas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esquema-basico-disposicion-cluster">Esquema básico disposición cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esquema-basico">Esquema básico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#esquema-basico-conexion-cluster">Esquema básico: Conexión cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conexion-cluster-vpn">Conexión cluster: VPN</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Esquema básico</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-cluster-bios">Arquitectura cluster BIOS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Arquitectura cluster BIOS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arquitectura-cluster-bios-inspur">Arquitectura cluster BIOS-INSPUR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Arquitectura cluster BIOS-INSPUR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sistemas-operativos">Sistemas operativos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-de-cluster">Software de cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#organizacion-de-directorios">Organización de directorios</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#librerias-y-modulos">Librerías y módulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Librerías y módulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paralelizacion-en-cluster-ley-de-amdahl">Paralelización en cluster: Ley de amdahl</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paralelizacion-en-cluster-taxonomia-flynn">Paralelización en cluster: Taxonomía Flynn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paralelizacion-en-cluster-hyper-threading">Paralelización en cluster: Hyper Threading</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-paralelizacion-multicore-openmp">Tipos de paralelización: Multicore OpenMP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-paralelizacion-multinodo-mpi">Tipos de paralelización: Multinodo MPI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-paralelizacion-mpi-openmp">Tipos de paralelización: MPI+OpenMP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tipos-de-paralelizacion-gpu">Tipos de paralelización: GPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Tipos de paralelización: GPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ejecucion-de-procesos-de-manera-general">Ejecución de procesos de manera general</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calendarizadores">Calendarizadores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flujo-de-trabajo-calendarizador">Flujo de trabajo calendarizador</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#capacidades-en-hpc">Capacidades en HPC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proyectos-ejecutados">Proyectos ejecutados</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recursos-extra">Recursos Extra</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Por Reinel Tabares, Johan Piña, Brayan Arteaga, Sergio Alejandro Holguin García
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
