@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
@@ -47,10 +47,10 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>let toggleHintShow = 'Haz clic para mostrar';</script>
-    <script>let toggleHintHide = 'Haz clic para ocultar';</script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../../_static/translations.js?v=d190bf04"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -237,6 +237,7 @@
 
 
 
+<li class="toctree-l2"><a class="reference internal" href="../Unidad_1/quiz.html">Evaluemos lo aprendido con un pequeño quiz!!</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%206%20-%20Metodos%20Numericos_2024_01_1.html">Métodos numéricos - Cálculo de raices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%207%20-%20Metodos%20Numericos_2024_01_2.html">Método de newton-raphson</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Unidad_1/Tema%208%20-%20Metodos%20Numericos_2024_01_3.html">Métodos Numéricos: Ecns Diferenciales Ordinarias</a></li>
@@ -668,23 +669,23 @@ document.write(`
 <h2><strong>Part 0: Google Colaboratory environment set up</strong><a class="headerlink" href="#part-0-google-colaboratory-environment-set-up" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download Java</span>
-<span class="o">!</span>apt-get<span class="w"> </span>install<span class="w"> </span>openjdk-8-jdk-headless<span class="w"> </span>-qq<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
-<span class="c1"># Next, we will install Apache Spark 3.0.1 with Hadoop 2.7 from here.</span>
-<span class="o">!</span>wget<span class="w"> </span>https://dlcdn.apache.org/spark/spark-3.5.6/spark-3.5.6-bin-hadoop3.tgz
-<span class="c1"># Now, we just need to unzip that folder.</span>
-<span class="o">!</span>tar<span class="w"> </span>xf<span class="w"> </span>spark-3.5.6-bin-hadoop3.tgz
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Download Java
+!apt-get install openjdk-8-jdk-headless -qq &gt; /dev/null
+# Next, we will install Apache Spark 3.0.1 with Hadoop 2.7 from here.
+!wget https://dlcdn.apache.org/spark/spark-3.5.6/spark-3.5.6-bin-hadoop3.tgz
+# Now, we just need to unzip that folder.
+!tar xf spark-3.5.6-bin-hadoop3.tgz
 
-<span class="c1"># Setting JVM and Spark path variables</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;JAVA_HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;/usr/lib/jvm/java-8-openjdk-amd64&quot;</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SPARK_HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;/content/spark-3.5.6-bin-hadoop3&quot;</span>
+# Setting JVM and Spark path variables
+import os
+os.environ[&quot;JAVA_HOME&quot;] = &quot;/usr/lib/jvm/java-8-openjdk-amd64&quot;
+os.environ[&quot;SPARK_HOME&quot;] = &quot;/content/spark-3.5.6-bin-hadoop3&quot;
 
-<span class="c1"># Installing required packages</span>
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.5.6
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>findspark
-<span class="kn">import</span><span class="w"> </span><span class="nn">findspark</span>
-<span class="n">findspark</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+# Installing required packages
+!pip install pyspark==3.5.6
+!pip install findspark
+import findspark
+findspark.init()
 </pre></div>
 </div>
 </div>
@@ -727,9 +728,9 @@ Successfully installed findspark-2.0.1
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear un SparkContext (sc)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkContext</span>
-<span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">(</span><span class="s2">&quot;local&quot;</span><span class="p">,</span> <span class="s2">&quot;example&quot;</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Crear un SparkContext (sc)
+from pyspark import SparkContext
+sc = SparkContext(&quot;local&quot;, &quot;example&quot;)
 </pre></div>
 </div>
 </div>
@@ -742,8 +743,8 @@ Successfully installed findspark-2.0.1
 <p>####Un cuaderno está compuesto por una secuencia lineal de celdas. Estas celdas pueden contener markdown o código, pero no mezclaremos ambos en una sola celda. Cuando se ejecuta una celda de markdown, se muestra texto formateado, imágenes y enlaces, al igual que HTML en una página web normal. El texto que estás leyendo ahora es parte de una celda de markdown. Las celdas de código de Python te permiten ejecutar comandos arbitrarios de Python, como en cualquier intérprete de Python. Coloca tu cursor dentro de la celda a continuación y presiona «Shift» + «Enter» para ejecutar el código y avanzar a la siguiente celda. También puedes presionar «Ctrl» + «Enter» para ejecutar el código y permanecer en la celda. Estos comandos funcionan igual en celdas de markdown y de código.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1">#  Esta es una celda Python. Puedes ejecutar código Python normal aquí...</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The sum of 1 and 1 is </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>#  Esta es una celda Python. Puedes ejecutar código Python normal aquí...
+print(&#39;The sum of 1 and 1 is {0}&#39;.format(1+1))
 </pre></div>
 </div>
 </div>
@@ -755,10 +756,10 @@ Successfully installed findspark-2.0.1
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aquí hay otra celda de Python, esta vez con una declaración de variable (x) y una sentencia if:</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The sum of 1 and 2 is </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Aquí hay otra celda de Python, esta vez con una declaración de variable (x) y una sentencia if:
+x = 42
+if x &gt; 40:
+    print(&#39;The sum of 1 and 2 is {0}&#39;.format(1+2))
 </pre></div>
 </div>
 </div>
@@ -776,9 +777,9 @@ Successfully installed findspark-2.0.1
 <h3>A medida que trabajas en un cuaderno, es importante que ejecutes todas las celdas de código. El cuaderno es con estado, lo que significa que las variables y sus valores se conservan hasta que el cuaderno se desconecta (en Databricks Cloud) o se reinicia el kernel (en cuadernos IPython). Si no ejecutas todas las celdas de código a medida que avanzas por el cuaderno, tus variables no se inicializarán correctamente y el código posterior podría fallar. También necesitarás volver a ejecutar cualquier celda que hayas modificado para que los cambios estén disponibles en otras celdas.<a class="headerlink" href="#a-medida-que-trabajas-en-un-cuaderno-es-importante-que-ejecutes-todas-las-celdas-de-codigo-el-cuaderno-es-con-estado-lo-que-significa-que-las-variables-y-sus-valores-se-conservan-hasta-que-el-cuaderno-se-desconecta-en-databricks-cloud-o-se-reinicia-el-kernel-en-cuadernos-ipython-si-no-ejecutas-todas-las-celdas-de-codigo-a-medida-que-avanzas-por-el-cuaderno-tus-variables-no-se-inicializaran-correctamente-y-el-codigo-posterior-podria-fallar-tambien-necesitaras-volver-a-ejecutar-cualquier-celda-que-hayas-modificado-para-que-los-cambios-esten-disponibles-en-otras-celdas" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Esta celda depende de que x ya esté definida.</span>
-<span class="c1"># Si no ejecutáramos las celdas de la parte (1a) este código fallaría.</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Esta celda depende de que x ya esté definida.
+# Si no ejecutáramos las celdas de la parte (1a) este código fallaría.
+print(x * 2)
 </pre></div>
 </div>
 </div>
@@ -796,10 +797,10 @@ Successfully installed findspark-2.0.1
 <h3>Podemos importar bibliotecas estándar de Python (<a class="reference external" href="https://docs.python.org/2/tutorial/modules.html">módulos</a>) de la manera habitual. Una declaración <code class="docutils literal notranslate"><span class="pre">import</span></code> importará el módulo especificado. En este tutorial y en futuros laboratorios, proporcionaremos las importaciones necesarias.<a class="headerlink" href="#podemos-importar-bibliotecas-estandar-de-python-modulos-de-la-manera-habitual-una-declaracion-import-importara-el-modulo-especificado-en-este-tutorial-y-en-futuros-laboratorios-proporcionaremos-las-importaciones-necesarias" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importar la biblioteca de expresiones regulares</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;(?&lt;=abc)def&#39;</span><span class="p">,</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Importar la biblioteca de expresiones regulares
+import re
+m = re.search(&#39;(?&lt;=abc)def&#39;, &#39;abcdef&#39;)
+m.group(0)
 </pre></div>
 </div>
 </div>
@@ -811,9 +812,9 @@ Successfully installed findspark-2.0.1
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Importar la biblioteca datetime</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This was last run on: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Importar la biblioteca datetime
+import datetime
+print(&#39;This was last run on: {0}&#39;.format(datetime.datetime.now()))
 </pre></div>
 </div>
 </div>
@@ -859,8 +860,8 @@ Successfully installed findspark-2.0.1
 <h3>Intenta imprimir <code class="docutils literal notranslate"><span class="pre">sc</span></code> para ver su tipo.<a class="headerlink" href="#intenta-imprimir-sc-para-ver-su-tipo" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mostrar el tipo de Spark Context sc</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">sc</span><span class="p">))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Mostrar el tipo de Spark Context sc
+print(type(sc))
 </pre></div>
 </div>
 </div>
@@ -878,8 +879,8 @@ Successfully installed findspark-2.0.1
 <h3>Puedes usar la función <a class="reference external" href="https://docs.python.org/2/library/functions.html?highlight=dir#dir">dir()</a> de Python para obtener una lista de todos los atributos (incluidos los métodos) accesibles a través del objeto <code class="docutils literal notranslate"><span class="pre">sc</span></code>.<a class="headerlink" href="#puedes-usar-la-funcion-dir-de-python-para-obtener-una-lista-de-todos-los-atributos-incluidos-los-metodos-accesibles-a-traves-del-objeto-sc" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Listar los atributos de sc</span>
-<span class="nb">dir</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Listar los atributos de sc
+dir(sc)
 </pre></div>
 </div>
 </div>
@@ -1013,8 +1014,8 @@ Successfully installed findspark-2.0.1
 <h3>Alternativamente, puedes usar la función <a class="reference external" href="https://docs.python.org/2/library/functions.html?highlight=help#help">help()</a> de Python para obtener una lista más fácil de leer de todos los atributos, incluidos ejemplos, que tiene el objeto <code class="docutils literal notranslate"><span class="pre">sc</span></code>.<a class="headerlink" href="#alternativamente-puedes-usar-la-funcion-help-de-python-para-obtener-una-lista-mas-facil-de-leer-de-todos-los-atributos-incluidos-ejemplos-que-tiene-el-objeto-sc" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Utiliza la ayuda para obtener información más detallada</span>
-<span class="n">help</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Utiliza la ayuda para obtener información más detallada
+help(sc)
 </pre></div>
 </div>
 </div>
@@ -2689,8 +2690,8 @@ class SparkContext(builtins.object)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Después de leer la ayuda hemos decidido que queremos usar sc.version para ver qué versión de Spark estamos ejecutando</span>
-<span class="n">sc</span><span class="o">.</span><span class="n">version</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Después de leer la ayuda hemos decidido que queremos usar sc.version para ver qué versión de Spark estamos ejecutando
+sc.version
 </pre></div>
 </div>
 </div>
@@ -2702,8 +2703,8 @@ class SparkContext(builtins.object)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Help can be used on any Python object</span>
-<span class="n">help</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Help can be used on any Python object
+help(map)
 </pre></div>
 </div>
 </div>
@@ -2777,14 +2778,14 @@ class map(object)
 <h3>Usaremos la función <a class="reference external" href="https://docs.python.org/2/library/functions.html?highlight=xrange#xrange">xrange()</a> para crear una <a class="reference external" href="https://docs.python.org/2/library/functions.html?highlight=list#list">lista</a> de enteros. <code class="docutils literal notranslate"><span class="pre">xrange()</span></code> solo genera valores a medida que se necesitan. Esto es diferente del comportamiento de <a class="reference external" href="https://docs.python.org/2/library/functions.html?highlight=range#range">range()</a>, que genera la lista completa al ejecutarse. Debido a esto, <code class="docutils literal notranslate"><span class="pre">xrange()</span></code> es más eficiente en memoria que <code class="docutils literal notranslate"><span class="pre">range()</span></code>, especialmente para rangos grandes.<a class="headerlink" href="#usaremos-la-funcion-xrange-para-crear-una-lista-de-enteros-xrange-solo-genera-valores-a-medida-que-se-necesitan-esto-es-diferente-del-comportamiento-de-range-que-genera-la-lista-completa-al-ejecutarse-debido-a-esto-xrange-es-mas-eficiente-en-memoria-que-range-especialmente-para-rangos-grandes" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10001</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>data = range(1, 10001)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>print(data)
 </pre></div>
 </div>
 </div>
@@ -2796,9 +2797,9 @@ class map(object)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Los datos son una lista normal de Python</span>
-<span class="c1"># Obtener el primer elemento de los datos</span>
-<span class="n">data</span><span class="p">[</span><span class="mi">9999</span><span class="p">]</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Los datos son una lista normal de Python
+# Obtener el primer elemento de los datos
+data[9999]
 </pre></div>
 </div>
 </div>
@@ -2810,8 +2811,8 @@ class map(object)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Podemos comprobar el tamaño de la lista utilizando la función len()</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Podemos comprobar el tamaño de la lista utilizando la función len()
+len(data)
 </pre></div>
 </div>
 </div>
@@ -2845,18 +2846,18 @@ class map(object)
 <h3>Después de generar RDDs, podemos verlos en la pestaña «Storage» de la interfaz web. Notarás que los nuevos conjuntos de datos no se enumeran hasta que Spark necesita devolver un resultado debido a la ejecución de una acción. Esta característica de Spark se llama «evaluación perezosa». Esto permite que Spark evite realizar cálculos innecesarios.<a class="headerlink" href="#despues-de-generar-rdds-podemos-verlos-en-la-pestana-storage-de-la-interfaz-web-notaras-que-los-nuevos-conjuntos-de-datos-no-se-enumeran-hasta-que-spark-necesita-devolver-un-resultado-debido-a-la-ejecucion-de-una-accion-esta-caracteristica-de-spark-se-llama-evaluacion-perezosa-esto-permite-que-spark-evite-realizar-calculos-innecesarios" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Paraleliza los datos usando 8 particiones</span>
-<span class="c1"># Esta operación es una transformación de datos en un RDD</span>
-<span class="c1"># Spark utiliza la evaluación perezosa, por lo que no se ejecutan trabajos Spark en este punto</span>
-<span class="n">xrangeRDD</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Paraleliza los datos usando 8 particiones
+# Esta operación es una transformación de datos en un RDD
+# Spark utiliza la evaluación perezosa, por lo que no se ejecutan trabajos Spark en este punto
+xrangeRDD = sc.parallelize(data, 8)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos la ayuda sobre paralelizar</span>
-<span class="n">help</span><span class="p">(</span><span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Veamos la ayuda sobre paralelizar
+help(sc.parallelize)
 </pre></div>
 </div>
 </div>
@@ -2899,13 +2900,13 @@ parallelize(c: Iterable[~T], numSlices: Optional[int] = None) -&gt; pyspark.rdd.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos qué tipo devuelve sc.parallelize()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;type of xrangeRDD: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">xrangeRDD</span><span class="p">)))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Veamos qué tipo devuelve sc.parallelize()
+print(&#39;type of xrangeRDD: {0}&#39;.format(type(xrangeRDD)))
 
-<span class="c1"># ¿Y si usamos un rango</span>
-<span class="n">dataRange</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10001</span><span class="p">)</span>
-<span class="n">rangeRDD</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">dataRange</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;type of dataRangeRDD: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">rangeRDD</span><span class="p">)))</span>
+# ¿Y si usamos un rango
+dataRange = range(1, 10001)
+rangeRDD = sc.parallelize(dataRange, 8)
+print(&#39;type of dataRangeRDD: {0}&#39;.format(type(rangeRDD)))
 </pre></div>
 </div>
 </div>
@@ -2918,9 +2919,9 @@ type of dataRangeRDD: &lt;class &#39;pyspark.rdd.PipelinedRDD&#39;&gt;
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cada RDD recibe un ID único</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;xrangeRDD id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xrangeRDD</span><span class="o">.</span><span class="n">id</span><span class="p">()))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rangeRDD id: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rangeRDD</span><span class="o">.</span><span class="n">id</span><span class="p">()))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Cada RDD recibe un ID único
+print(&#39;xrangeRDD id: {0}&#39;.format(xrangeRDD.id()))
+print(&#39;rangeRDD id: {0}&#39;.format(rangeRDD.id()))
 </pre></div>
 </div>
 </div>
@@ -2933,8 +2934,8 @@ rangeRDD id: 3
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Podemos nombrar cada RDD recién creado usando el método setName()</span>
-<span class="n">xrangeRDD</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;My first RDD&#39;</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Podemos nombrar cada RDD recién creado usando el método setName()
+xrangeRDD.setName(&#39;My first RDD&#39;)
 </pre></div>
 </div>
 </div>
@@ -2946,8 +2947,8 @@ rangeRDD id: 3
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos el linaje (el conjunto de transformaciones) del RDD usando toDebugString()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">xrangeRDD</span><span class="o">.</span><span class="n">toDebugString</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Veamos el linaje (el conjunto de transformaciones) del RDD usando toDebugString()
+print(xrangeRDD.toDebugString())
 </pre></div>
 </div>
 </div>
@@ -2959,8 +2960,8 @@ rangeRDD id: 3
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Usemos help para ver que métodos podemos llamar en este RDD</span>
-<span class="n">help</span><span class="p">(</span><span class="n">xrangeRDD</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Usemos help para ver que métodos podemos llamar en este RDD
+help(xrangeRDD)
 </pre></div>
 </div>
 </div>
@@ -6381,8 +6382,8 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Veamos en cuántas particiones se dividirá el RDD utilizando la función getNumPartitions()</span>
-<span class="n">xrangeRDD</span><span class="o">.</span><span class="n">getNumPartitions</span><span class="p">()</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Veamos en cuántas particiones se dividirá el RDD utilizando la función getNumPartitions()
+xrangeRDD.getNumPartitions()
 </pre></div>
 </div>
 </div>
@@ -6414,25 +6415,25 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>Ahora usaremos <code class="docutils literal notranslate"><span class="pre">map()</span></code> para restar uno de cada valor en el RDD base que acabamos de crear. Primero, definimos una función de Python llamada <code class="docutils literal notranslate"><span class="pre">sub()</span></code> que restará uno del entero de entrada. En segundo lugar, pasaremos cada elemento en el RDD base a una transformación <code class="docutils literal notranslate"><span class="pre">map()</span></code> que aplica la función <code class="docutils literal notranslate"><span class="pre">sub()</span></code> a cada elemento. Y finalmente, imprimimos la jerarquía de transformación del RDD usando <code class="docutils literal notranslate"><span class="pre">toDebugString()</span></code>.<a class="headerlink" href="#ahora-usaremos-map-para-restar-uno-de-cada-valor-en-el-rdd-base-que-acabamos-de-crear-primero-definimos-una-funcion-de-python-llamada-sub-que-restara-uno-del-entero-de-entrada-en-segundo-lugar-pasaremos-cada-elemento-en-el-rdd-base-a-una-transformacion-map-que-aplica-la-funcion-sub-a-cada-elemento-y-finalmente-imprimimos-la-jerarquia-de-transformacion-del-rdd-usando-todebugstring" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear subfunción para restar 1</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">sub</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;&quot;Subtracts one from `value`.</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Crear subfunción para restar 1
+def sub(value):
+    &quot;&quot;&quot;&quot;Subtracts one from `value`.
 
-<span class="sd">    Args:</span>
-<span class="sd">       value (int): A number.</span>
+    Args:
+       value (int): A number.
 
-<span class="sd">    Returns:</span>
-<span class="sd">        int: `value` minus one.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">value</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    Returns:
+        int: `value` minus one.
+    &quot;&quot;&quot;
+    return (value - 1)
 
-<span class="c1"># Transformar xrangeRDD a través de la transformación map usando la subfunción</span>
-<span class="c1"># Debido a que map es una transformación y Spark usa lazy evaluation, ningún job, stage,</span>
-<span class="c1"># o tareas serán lanzadas cuando ejecutemos este código.</span>
-<span class="n">subRDD</span> <span class="o">=</span> <span class="n">xrangeRDD</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
+# Transformar xrangeRDD a través de la transformación map usando la subfunción
+# Debido a que map es una transformación y Spark usa lazy evaluation, ningún job, stage,
+# o tareas serán lanzadas cuando ejecutemos este código.
+subRDD = xrangeRDD.map(sub)
 
-<span class="c1"># Veamos la jerarquía de transformación RDD</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">subRDD</span><span class="o">.</span><span class="n">toDebugString</span><span class="p">())</span>
+# Veamos la jerarquía de transformación RDD
+print(subRDD.toDebugString())
 </pre></div>
 </div>
 </div>
@@ -6463,8 +6464,8 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>Ahora ejecutemos <code class="docutils literal notranslate"><span class="pre">collect()</span></code> en <code class="docutils literal notranslate"><span class="pre">subRDD</span></code>.<a class="headerlink" href="#ahora-ejecutemos-collect-en-subrdd" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recojamos los datos</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">subRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Recojamos los datos
+print(subRDD.collect())
 </pre></div>
 </div>
 </div>
@@ -6489,8 +6490,8 @@ class PipelinedRDD(RDD, typing.Generic)
 <p><img alt="count" src="http://spark-mooc.github.io/web-assets/images/count.png" /></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">xrangeRDD</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">subRDD</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>print(xrangeRDD.count())
+print(subRDD.count())
 </pre></div>
 </div>
 </div>
@@ -6519,29 +6520,29 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>Para ver la lista filtrada de elementos menores que diez, necesitamos crear una nueva lista en el driver a partir de los datos distribuidos en los nodos ejecutores. Usamos el método <code class="docutils literal notranslate"><span class="pre">collect()</span></code> para devolver una lista que contenga todos los elementos en este RDD filtrado al programa driver.<a class="headerlink" href="#para-ver-la-lista-filtrada-de-elementos-menores-que-diez-necesitamos-crear-una-nueva-lista-en-el-driver-a-partir-de-los-datos-distribuidos-en-los-nodos-ejecutores-usamos-el-metodo-collect-para-devolver-una-lista-que-contenga-todos-los-elementos-en-este-rdd-filtrado-al-programa-driver" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Definir una función para filtrar un único valor</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">ten</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether value is below ten.</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Definir una función para filtrar un único valor
+def ten(value):
+    &quot;&quot;&quot;Return whether value is below ten.
 
-<span class="sd">    Args:</span>
-<span class="sd">        value (int): A number.</span>
+    Args:
+        value (int): A number.
 
-<span class="sd">    Returns:</span>
-<span class="sd">        bool: Whether `value` is less than ten.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span>
-<span class="c1"># La función diez también podría escribirse de forma concisa como: def diez(valor): return valor &lt; 10</span>
+    Returns:
+        bool: Whether `value` is less than ten.
+    &quot;&quot;&quot;
+    if (value &lt; 10):
+        return True
+    else:
+        return False
+# La función diez también podría escribirse de forma concisa como: def diez(valor): return valor &lt; 10
 
-<span class="c1"># Pasa la función diez a la transformación filtro</span>
-<span class="c1"># El filtro es una transformación por lo que no se ejecutan tareas</span>
-<span class="n">filteredRDD</span> <span class="o">=</span> <span class="n">subRDD</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ten</span><span class="p">)</span>
+# Pasa la función diez a la transformación filtro
+# El filtro es una transformación por lo que no se ejecutan tareas
+filteredRDD = subRDD.filter(ten)
 
-<span class="c1"># Ver los resultados usando collect()</span>
-<span class="c1"># Recopilar es una acción y hace que se ejecute la transformación del filtro</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+# Ver los resultados usando collect()
+# Recopilar es una acción y hace que se ejecute la transformación del filtro
+print(filteredRDD.collect())
 </pre></div>
 </div>
 </div>
@@ -6565,8 +6566,8 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>Aquí, en lugar de definir una función separada para la transformación <code class="docutils literal notranslate"><span class="pre">filter()</span></code>, usaremos una función <code class="docutils literal notranslate"><span class="pre">lambda()</span></code> en línea.<a class="headerlink" href="#aqui-en-lugar-de-definir-una-funcion-separada-para-la-transformacion-filter-usaremos-una-funcion-lambda-en-linea" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">lambdaRDD</span> <span class="o">=</span> <span class="n">subRDD</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">lambdaRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>lambdaRDD = subRDD.filter(lambda x: x &lt; 10)
+lambdaRDD.collect()
 </pre></div>
 </div>
 </div>
@@ -6578,9 +6579,9 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recojamos los valores pares menores que 10</span>
-<span class="n">evenRDD</span> <span class="o">=</span> <span class="n">lambdaRDD</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">evenRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Recojamos los valores pares menores que 10
+evenRDD = lambdaRDD.filter(lambda x: x % 2 == 0)
+evenRDD.collect()
 </pre></div>
 </div>
 </div>
@@ -6613,12 +6614,12 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>La acción <code class="docutils literal notranslate"><span class="pre">reduce()</span></code> reduce los elementos de un RDD a un solo valor aplicando una función que toma dos parámetros y devuelve un solo valor. La función debe ser conmutativa y asociativa, ya que <code class="docutils literal notranslate"><span class="pre">reduce()</span></code> se aplica a nivel de partición y luego nuevamente para agregar resultados de particiones. Si estas reglas no se cumplen, los resultados de <code class="docutils literal notranslate"><span class="pre">reduce()</span></code> serán inconsistentes. Reducir localmente en las particiones hace que <code class="docutils literal notranslate"><span class="pre">reduce()</span></code> sea muy eficiente.<a class="headerlink" href="#la-accion-reduce-reduce-los-elementos-de-un-rdd-a-un-solo-valor-aplicando-una-funcion-que-toma-dos-parametros-y-devuelve-un-solo-valor-la-funcion-debe-ser-conmutativa-y-asociativa-ya-que-reduce-se-aplica-a-nivel-de-particion-y-luego-nuevamente-para-agregar-resultados-de-particiones-si-estas-reglas-no-se-cumplen-los-resultados-de-reduce-seran-inconsistentes-reducir-localmente-en-las-particiones-hace-que-reduce-sea-muy-eficiente" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Obtengamos el primer elemento</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">first</span><span class="p">())</span>
-<span class="c1"># Los primeros 4</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-<span class="c1"># Tenga en cuenta que está bien tomar más elementos que el RDD tiene</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Obtengamos el primer elemento
+print(filteredRDD.first())
+# Los primeros 4
+print(filteredRDD.take(4))
+# Tenga en cuenta que está bien tomar más elementos que el RDD tiene
+print(filteredRDD.take(12))
 </pre></div>
 </div>
 </div>
@@ -6632,10 +6633,10 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recuperar los tres elementos más pequeños</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">takeOrdered</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="c1"># Recuperar los cinco elementos más grandes</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">top</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Recuperar los tres elementos más pequeños
+print(filteredRDD.takeOrdered(3))
+# Recuperar los cinco elementos más grandes
+print(filteredRDD.top(5))
 </pre></div>
 </div>
 </div>
@@ -6648,8 +6649,8 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pasa una función lambda a takeOrdered para invertir el orden</span>
-<span class="n">filteredRDD</span><span class="o">.</span><span class="n">takeOrdered</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="o">-</span><span class="n">s</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Pasa una función lambda a takeOrdered para invertir el orden
+filteredRDD.takeOrdered(4, lambda s: -s)
 </pre></div>
 </div>
 </div>
@@ -6661,17 +6662,17 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Obtener la función add de Python</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">add</span>
-<span class="c1"># Suma eficientemente el RDD usando reduce</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">))</span>
-<span class="c1"># Suma usando reduce con una función lambda</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
-<span class="c1"># Tenga en cuenta que la resta no es a la vez asociativa y conmutativa</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">repartition</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">))</span>
-<span class="c1"># Mientras que la suma es</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">repartition</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Obtener la función add de Python
+from operator import add
+# Suma eficientemente el RDD usando reduce
+print(filteredRDD.reduce(add))
+# Suma usando reduce con una función lambda
+print(filteredRDD.reduce(lambda a, b: a + b))
+# Tenga en cuenta que la resta no es a la vez asociativa y conmutativa
+print(filteredRDD.reduce(lambda a, b: a - b))
+print(filteredRDD.repartition(4).reduce(lambda a, b: a - b))
+# Mientras que la suma es
+print(filteredRDD.repartition(4).reduce(lambda a, b: a + b))
 </pre></div>
 </div>
 </div>
@@ -6699,10 +6700,10 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>La acción <code class="docutils literal notranslate"><span class="pre">countByValue()</span></code> devuelve el conteo de cada valor único en el RDD como un diccionario que asigna valores a conteos.<a class="headerlink" href="#la-accion-countbyvalue-devuelve-el-conteo-de-cada-valor-unico-en-el-rdd-como-un-diccionario-que-asigna-valores-a-conteos" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># takeSample reutilización de elementos</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">takeSample</span><span class="p">(</span><span class="n">withReplacement</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">6</span><span class="p">))</span>
-<span class="c1"># takeSample without reuse</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">takeSample</span><span class="p">(</span><span class="n">withReplacement</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">6</span><span class="p">))</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># takeSample reutilización de elementos
+print(filteredRDD.takeSample(withReplacement=True, num=6))
+# takeSample without reuse
+print(filteredRDD.takeSample(withReplacement=False, num=6))
 </pre></div>
 </div>
 </div>
@@ -6715,10 +6716,10 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Establecer semilla para la previsibilidad</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">takeSample</span><span class="p">(</span><span class="n">withReplacement</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">500</span><span class="p">))</span>
-<span class="c1"># Intenta volver a ejecutar esta celda y la celda de arriba -- los resultados de esta celda permanecerán constantes</span>
-<span class="c1"># Use ctrl-enter para correr sin moverse a la siguiente celda</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Establecer semilla para la previsibilidad
+print(filteredRDD.takeSample(withReplacement=False, num=6, seed=500))
+# Intenta volver a ejecutar esta celda y la celda de arriba -- los resultados de esta celda permanecerán constantes
+# Use ctrl-enter para correr sin moverse a la siguiente celda
 </pre></div>
 </div>
 </div>
@@ -6730,9 +6731,9 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Crear nuevo RDD base para mostrar countByValue</span>
-<span class="n">repetitiveRDD</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">repetitiveRDD</span><span class="o">.</span><span class="n">countByValue</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Crear nuevo RDD base para mostrar countByValue
+repetitiveRDD = sc.parallelize([1, 2, 3, 1, 2, 3, 1, 2, 1, 2, 3, 3, 3, 4, 5, 4, 6])
+print(repetitiveRDD.countByValue())
 </pre></div>
 </div>
 </div>
@@ -6756,21 +6757,21 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>Para demostrar <code class="docutils literal notranslate"><span class="pre">flatMap()</span></code>, primero emitiremos una palabra junto con su plural, y luego un rango que crece en longitud con cada operación subsiguiente.<a class="headerlink" href="#para-demostrar-flatmap-primero-emitiremos-una-palabra-junto-con-su-plural-y-luego-un-rango-que-crece-en-longitud-con-cada-operacion-subsiguiente" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vamos a crear un nuevo RDD base a partir del cual trabajar</span>
-<span class="n">wordsList</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;elephant&#39;</span><span class="p">,</span> <span class="s1">&#39;rat&#39;</span><span class="p">,</span> <span class="s1">&#39;rat&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">]</span>
-<span class="n">wordsRDD</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">(</span><span class="n">wordsList</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Vamos a crear un nuevo RDD base a partir del cual trabajar
+wordsList = [&#39;cat&#39;, &#39;elephant&#39;, &#39;rat&#39;, &#39;rat&#39;, &#39;cat&#39;]
+wordsRDD = sc.parallelize(wordsList, 4)
 
-<span class="c1"># Use map</span>
-<span class="n">singularAndPluralWordsRDDMap</span> <span class="o">=</span> <span class="n">wordsRDD</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">))</span>
-<span class="c1"># Use flatMap</span>
-<span class="n">singularAndPluralWordsRDD</span> <span class="o">=</span> <span class="n">wordsRDD</span><span class="o">.</span><span class="n">flatMap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="s1">&#39;s&#39;</span><span class="p">))</span>
+# Use map
+singularAndPluralWordsRDDMap = wordsRDD.map(lambda x: (x, x + &#39;s&#39;))
+# Use flatMap
+singularAndPluralWordsRDD = wordsRDD.flatMap(lambda x: (x, x + &#39;s&#39;))
 
-<span class="c1"># Ver los resultados</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">singularAndPluralWordsRDDMap</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">singularAndPluralWordsRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
-<span class="c1"># Ver el número de elementos en el RDD</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">singularAndPluralWordsRDDMap</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">singularAndPluralWordsRDD</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+# Ver los resultados
+print(singularAndPluralWordsRDDMap.collect())
+print(singularAndPluralWordsRDD.collect())
+# Ver el número de elementos en el RDD
+print(singularAndPluralWordsRDDMap.count())
+print(singularAndPluralWordsRDD.count())
 </pre></div>
 </div>
 </div>
@@ -6785,9 +6786,9 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">simpleRDD</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">simpleRDD</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">simpleRDD</span><span class="o">.</span><span class="n">flatMap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>simpleRDD = sc.parallelize([2, 3, 4])
+print(simpleRDD.map(lambda x: range(1, x)).collect())
+print(simpleRDD.flatMap(lambda x: range(1, x)).collect())
 </pre></div>
 </div>
 </div>
@@ -6841,16 +6842,16 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>Ahora repasemos un ejemplo simple de <code class="docutils literal notranslate"><span class="pre">groupByKey()</span></code> y <code class="docutils literal notranslate"><span class="pre">reduceByKey()</span></code>.<a class="headerlink" href="#ahora-repasemos-un-ejemplo-simple-de-groupbykey-y-reducebykey" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pairRDD</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="p">([(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
-<span class="c1"># mapValues sólo se utiliza para mejorar el formato de impresión</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pairRDD</span><span class="o">.</span><span class="n">groupByKey</span><span class="p">()</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>pairRDD = sc.parallelize([(&#39;a&#39;, 1), (&#39;a&#39;, 2), (&#39;b&#39;, 1)])
+# mapValues sólo se utiliza para mejorar el formato de impresión
+print(pairRDD.groupByKey().mapValues(lambda x: list(x)).collect())
 
-<span class="c1"># Diferentes formas de sumar por tecla</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pairRDD</span><span class="o">.</span><span class="n">groupByKey</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">kv</span><span class="p">:</span> <span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">sum</span><span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
-<span class="c1"># Usando mapValues, que se recomienda cuando la clave no cambia</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pairRDD</span><span class="o">.</span><span class="n">groupByKey</span><span class="p">()</span><span class="o">.</span><span class="n">mapValues</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
-<span class="c1"># reduceByKey es más eficiente / escalable</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pairRDD</span><span class="o">.</span><span class="n">reduceByKey</span><span class="p">(</span><span class="n">add</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+# Diferentes formas de sumar por tecla
+print(pairRDD.groupByKey().map(lambda kv: (kv[0], sum(kv[1]))).collect())
+# Usando mapValues, que se recomienda cuando la clave no cambia
+print(pairRDD.groupByKey().mapValues(lambda x: sum(x)).collect())
+# reduceByKey es más eficiente / escalable
+print(pairRDD.reduceByKey(add).collect())
 </pre></div>
 </div>
 </div>
@@ -6877,10 +6878,10 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>La transformación <code class="docutils literal notranslate"><span class="pre">mapPartitionsWithIndex()</span></code> utiliza una función que toma un índice de partición (piensa en esto como el número de partición) y un iterador (para los elementos en esa partición específica). Para cada par (índice, iterador) de partición, la función devuelve una tupla del mismo número de índice de partición y un iterador de los elementos transformados en esa partición.<a class="headerlink" href="#la-transformacion-mappartitionswithindex-utiliza-una-funcion-que-toma-un-indice-de-particion-piensa-en-esto-como-el-numero-de-particion-y-un-iterador-para-los-elementos-en-esa-particion-especifica-para-cada-par-indice-iterador-de-particion-la-funcion-devuelve-una-tupla-del-mismo-numero-de-indice-de-particion-y-un-iterador-de-los-elementos-transformados-en-esa-particion" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mapPartitions toma una función que toma un iterador y devuelve un iterador</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">wordsRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
-<span class="n">itemsRDD</span> <span class="o">=</span> <span class="n">wordsRDD</span><span class="o">.</span><span class="n">mapPartitions</span><span class="p">(</span><span class="k">lambda</span> <span class="n">iterator</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iterator</span><span class="p">)])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">itemsRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># mapPartitions toma una función que toma un iterador y devuelve un iterador
+print(wordsRDD.collect())
+itemsRDD = wordsRDD.mapPartitions(lambda iterator: [&#39;,&#39;.join(iterator)])
+print(itemsRDD.collect())
 </pre></div>
 </div>
 </div>
@@ -6893,13 +6894,13 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">itemsByPartRDD</span> <span class="o">=</span> <span class="n">wordsRDD</span><span class="o">.</span><span class="n">mapPartitionsWithIndex</span><span class="p">(</span><span class="k">lambda</span> <span class="n">index</span><span class="p">,</span> <span class="n">iterator</span><span class="p">:</span> <span class="p">[(</span><span class="n">index</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterator</span><span class="p">))])</span>
-<span class="c1"># Podemos ver que tres de los trabajadores (particiones) tienen un elemento y el cuarto trabajador tiene dos</span>
-<span class="c1"># elementos, aunque las cosas no auguran nada bueno para la rata...</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">itemsByPartRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
-<span class="c1"># Reejecutar sin devolver una lista (actúa más como flatMap)</span>
-<span class="n">itemsByPartRDD</span> <span class="o">=</span> <span class="n">wordsRDD</span><span class="o">.</span><span class="n">mapPartitionsWithIndex</span><span class="p">(</span><span class="k">lambda</span> <span class="n">index</span><span class="p">,</span> <span class="n">iterator</span><span class="p">:</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterator</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">itemsByPartRDD</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>itemsByPartRDD = wordsRDD.mapPartitionsWithIndex(lambda index, iterator: [(index, list(iterator))])
+# Podemos ver que tres de los trabajadores (particiones) tienen un elemento y el cuarto trabajador tiene dos
+# elementos, aunque las cosas no auguran nada bueno para la rata...
+print(itemsByPartRDD.collect())
+# Reejecutar sin devolver una lista (actúa más como flatMap)
+itemsByPartRDD = wordsRDD.mapPartitionsWithIndex(lambda index, iterator: (index, list(iterator)))
+print(itemsByPartRDD.collect())
 </pre></div>
 </div>
 </div>
@@ -6927,12 +6928,12 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3>Puedes comprobar si un RDD está en caché utilizando el atributo <code class="docutils literal notranslate"><span class="pre">is_cached</span></code>, y puedes ver tu RDD en caché en la sección «Storage» de la interfaz web de Spark. Si haces clic en el nombre del RDD, puedes ver más información sobre dónde se almacena el RDD.<a class="headerlink" href="#puedes-comprobar-si-un-rdd-esta-en-cache-utilizando-el-atributo-is-cached-y-puedes-ver-tu-rdd-en-cache-en-la-seccion-storage-de-la-interfaz-web-de-spark-si-haces-clic-en-el-nombre-del-rdd-puedes-ver-mas-informacion-sobre-donde-se-almacena-el-rdd" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nombrar el RDD</span>
-<span class="n">filteredRDD</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s1">&#39;My Filtered RDD&#39;</span><span class="p">)</span>
-<span class="c1"># Cache del RDD</span>
-<span class="n">filteredRDD</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
-<span class="c1"># Está en caché?</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">is_cached</span><span class="p">)</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Nombrar el RDD
+filteredRDD.setName(&#39;My Filtered RDD&#39;)
+# Cache del RDD
+filteredRDD.cache()
+# Está en caché?
+print(filteredRDD.is_cached)
 </pre></div>
 </div>
 </div>
@@ -6956,8 +6957,8 @@ class PipelinedRDD(RDD, typing.Generic)
 <h3><strong>Avanzado:</strong> Spark proporciona muchas más opciones para gestionar cómo se almacenan los RDDs en memoria o incluso guardarlos en disco. Puedes explorar la API para la operación <a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.RDD.persist">persist()</a> de RDD utilizando el comando <a class="reference external" href="https://docs.python.org/2/library/functions.html?highlight=help#help">help()</a> de Python. La operación <code class="docutils literal notranslate"><span class="pre">persist()</span></code>, opcionalmente, toma un objeto <a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.StorageLevel">StorageLevel</a> de pySpark.<a class="headerlink" href="#avanzado-spark-proporciona-muchas-mas-opciones-para-gestionar-como-se-almacenan-los-rdds-en-memoria-o-incluso-guardarlos-en-disco-puedes-explorar-la-api-para-la-operacion-persist-de-rdd-utilizando-el-comando-help-de-python-la-operacion-persist-opcionalmente-toma-un-objeto-storagelevel-de-pyspark" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tenga en cuenta que toDebugString también proporciona información de almacenamiento</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">toDebugString</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Tenga en cuenta que toDebugString también proporciona información de almacenamiento
+print(filteredRDD.toDebugString())
 </pre></div>
 </div>
 </div>
@@ -6969,13 +6970,13 @@ class PipelinedRDD(RDD, typing.Generic)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Si ya hemos terminado con el RDD podemos desempaquetarlo para que su memoria pueda ser recuperada</span>
-<span class="n">filteredRDD</span><span class="o">.</span><span class="n">unpersist</span><span class="p">()</span>
-<span class="c1"># Nivel de almacenamiento para un RDD sin caché</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">getStorageLevel</span><span class="p">())</span>
-<span class="n">filteredRDD</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
-<span class="c1"># Nivel de almacenamiento para un RDD en caché</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">filteredRDD</span><span class="o">.</span><span class="n">getStorageLevel</span><span class="p">())</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Si ya hemos terminado con el RDD podemos desempaquetarlo para que su memoria pueda ser recuperada
+filteredRDD.unpersist()
+# Nivel de almacenamiento para un RDD sin caché
+print(filteredRDD.getStorageLevel())
+filteredRDD.cache()
+# Nivel de almacenamiento para un RDD en caché
+print(filteredRDD.getStorageLevel())
 </pre></div>
 </div>
 </div>
@@ -7003,7 +7004,7 @@ Memory Serialized 1x Replicated
         },
         kernelOptions: {
             name: "python3",
-            path: "./Unidades/UnidadBigData"
+            path: "./Unidades\UnidadBigData"
         },
         predefinedOutput: true
     }
