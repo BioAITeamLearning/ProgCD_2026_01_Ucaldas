@@ -16,9 +16,21 @@ chapters:
   - file: Unidades/Unidad_1/VisualizacionDinamicaFoliumF
   - file: Unidades/Unidad_1/Automatizaciones
   - file: Unidades/Unidad_1/Ficheros
+  - file: Unidades/Unidad_1/quiz.md
   - file: Unidades/Unidad_1/Tema 6 - Metodos Numericos_2024_01_1
   - file: Unidades/Unidad_1/Tema 7 - Metodos Numericos_2024_01_2
   - file: Unidades/Unidad_1/Tema 8 - Metodos Numericos_2024_01_3
   - file: Unidades/Unidad_1/Tema 9 - Metodos Numericos_2024_01_4
   - file: Unidades/Unidad_1/RepasoUnidad
   - file: Unidades/Unidad_1/Evaluemos_Unidad1_10_08_2023
+ 
+- file: Unidad2
+- file: Unidad3
+  sections:
+  - file: "Unidades/Unidad_3/Ejercicio"
+  - file: "Unidades/Unidad_3/Ley_de_Amdahl_Gustafson_Ejercicio"
+  - file: "Unidades/Unidad_3/CalculodeFLOPS"
+  - file: "Unidades/Unidad_3/Metricas programas paralelos"
+  - file: "Unidades/Unidad_3/metricas_hpc_industria"
+  - file: "Unidades/Unidad_3/hpc_aprende"
+  - file: "Unidades/Unidad_3/Recursos Extra"
