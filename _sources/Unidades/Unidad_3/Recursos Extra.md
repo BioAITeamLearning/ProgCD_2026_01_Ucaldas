@@ -61,3 +61,7 @@ title: Recursos Extra
 ```{tip}
 <a href="https://repositorio.unal.edu.co/handle/unal/57830" target="_blank">Programación paralela sobre arquitecturas heterogéneas </a>
 ```
+## Documento HTML
+```{tip}
+<a href="https://drive.google.com/file/d/1MX_LAjy7Db2py2dosPJ2Tbeqa4ObFWZj/view?usp=sharing" target="_blank">HPCAprende </a>
+```
