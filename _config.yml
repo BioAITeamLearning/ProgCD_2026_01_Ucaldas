@@ -34,3 +34,4 @@ html:
 sphinx:
   config:
     language: es
+    html_extra_path: ["Unidades/Unidad_3/hpc_aprende.html"]
