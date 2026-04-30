@@ -1,7 +1,7 @@
 ---
-title: Unidad 6
+title: Unidad 11
 ---
-# Unidad 6: Infraestructura de cluster
+# Unidad 11: Infraestructura de cluster
 
 ## Contenido de la unidad
 

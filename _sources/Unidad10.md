@@ -1,7 +1,7 @@
 ---
-title: Unidad 10
+title: Unidad 9
 ---
-# Unidad 10: PyCUDA
+# Unidad 9: PyCUDA
 
 ## Contenido de la unidad
 
